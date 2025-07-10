@@ -1,0 +1,1261 @@
+[gd_scene load_steps=59 format=4 uid="uid://bw228hxnt8umj"]
+
+[ext_resource type="Texture2D" uid="uid://b8et4u4obxcbk" path="res://tiles/fantasyhextiles_v3.png" id="2_r0du0"]
+[ext_resource type="Script" uid="uid://bwp7o002cv4pn" path="res://scripts/camera_movement.gd" id="2_uu6xs"]
+[ext_resource type="Texture2D" uid="uid://c1o4om3jlewdt" path="res://buildings/mineral2.png" id="3_cm0pq"]
+[ext_resource type="Script" uid="uid://15rah6714qwu" path="res://scripts/tile_actions.gd" id="4_cm0pq"]
+[ext_resource type="Texture2D" uid="uid://cynrbkj4s4b1t" path="res://tiles/output-onlinepngtools (2).png" id="4_fos0i"]
+[ext_resource type="Texture2D" uid="uid://b65p52qtuluvy" path="res://buildings/mineral1.png" id="5_lgr22"]
+[ext_resource type="Texture2D" uid="uid://wfgpu07657kh" path="res://buildings/mineral3.png" id="7_trn2v"]
+[ext_resource type="Script" uid="uid://u1h84ynbijfy" path="res://scripts/main_script.gd" id="8_trn2v"]
+[ext_resource type="Script" uid="uid://begp7nomk5k6i" path="res://scripts/canvas_layer.gd" id="9_c2ibq"]
+[ext_resource type="Texture2D" uid="uid://b6i5t3m3282i5" path="res://buildings/house3.png" id="9_c6i3y"]
+[ext_resource type="Texture2D" uid="uid://b6wkvtw4v8b6y" path="res://buildings/generator.png" id="10_c2ibq"]
+[ext_resource type="Script" uid="uid://b6dneqlysccuf" path="res://scripts/house_button.gd" id="10_devvj"]
+[ext_resource type="Texture2D" uid="uid://du68sv8upmly0" path="res://buildings/farm1.png" id="11_j4qnp"]
+[ext_resource type="Script" uid="uid://if3uurqvb48y" path="res://scripts/mine_button.gd" id="12_3b0ty"]
+[ext_resource type="Texture2D" uid="uid://c48jo4sx5odjn" path="res://buildings/mine.png" id="12_fpfj3"]
+[ext_resource type="Texture2D" uid="uid://bjmsru4vfme2i" path="res://buildings/turret1.png" id="13_sc1dx"]
+[ext_resource type="Script" uid="uid://bhwavm6dty7gi" path="res://scripts/farm_button.gd" id="14_bg4s2"]
+[ext_resource type="Script" uid="uid://crffbytmqfp7o" path="res://scripts/cancel_button.gd" id="15_j4qnp"]
+[ext_resource type="Texture2D" uid="uid://bcnr8mjeag8tt" path="res://icons/personIcon.png" id="16_5tuhn"]
+[ext_resource type="Script" uid="uid://cxhjhclcchu75" path="res://scripts/generator_button.gd" id="16_hhcpw"]
+[ext_resource type="Texture2D" uid="uid://b8xi6h4cfb546" path="res://icons/mineralIcon.png" id="17_2gh4u"]
+[ext_resource type="Texture2D" uid="uid://budnsmyo6a1xb" path="res://icons/carrotIcon.png" id="18_devvj"]
+[ext_resource type="Script" uid="uid://caf3feqdcl2ce" path="res://scripts/turrent_button.gd" id="18_mxvw5"]
+[ext_resource type="Texture2D" uid="uid://ctqm41xsn88xu" path="res://icons/energyIcon.png" id="19_3b0ty"]
+[ext_resource type="Script" uid="uid://cul54nu0tgw6t" path="res://scripts/end_day_button.gd" id="20_2gh4u"]
+[ext_resource type="Script" uid="uid://c1bdxykpxieda" path="res://scripts/Resources_stats.gd" id="23_sqvbp"]
+[ext_resource type="Texture2D" uid="uid://b0q6xfis5lthc" path="res://buildings/crashedrocket.png" id="26_xrxkg"]
+[ext_resource type="Script" uid="uid://rs8ltx4loeqh" path="res://scripts/error_dialog.gd" id="28_hri7i"]
+[ext_resource type="Script" uid="uid://dbdv7h1p2px41" path="res://scripts/fire_button.gd" id="29_5mvff"]
+[ext_resource type="Texture2D" uid="uid://bkbpbffxh3ckw" path="res://icons/crosshair.png" id="30_oye8v"]
+[ext_resource type="Texture2D" uid="uid://4px8wntp2pk1" path="res://backgrounds/sand.jpg" id="31_oye8v"]
+[ext_resource type="Texture2D" uid="uid://bwx0u0ybfuxw3" path="res://icons/questionMark.png" id="32_40n85"]
+[ext_resource type="Script" uid="uid://cifcsydeavty3" path="res://help_button.gd" id="32_sph85"]
+[ext_resource type="Script" uid="uid://jiwica5lsx8v" path="res://help_text_canvas.gd" id="34_o7g6l"]
+[ext_resource type="Script" uid="uid://70mq3cye64fd" path="res://back_button.gd" id="35_o7g6l"]
+[ext_resource type="Script" uid="uid://06xyoa6ljw0q" path="res://game_over_canvas.gd" id="36_5mkgo"]
+[ext_resource type="Script" uid="uid://cnfghrqi175fo" path="res://back_to_menu_game_over.gd" id="36_vi5kq"]
+[ext_resource type="Script" uid="uid://dxrvliv0c2jko" path="res://victory_canvas.gd" id="38_3ccbu"]
+[ext_resource type="Script" uid="uid://dn0tevhx0ncoa" path="res://night_canvas.gd" id="39_ny7u2"]
+
+[sub_resource type="Shader" id="Shader_cm0pq"]
+code = "shader_type canvas_item;
+
+uniform vec2 hovered_tile = vec2(-9999.0, -9999.0); // axial coords
+uniform vec2 clicked_tile = vec2(-9999.0, -9999.0);
+uniform float tile_size = 50.0;
+uniform float zoom = 1.0;
+
+uniform float hover_opacity = 0.6;
+uniform float click_opacity = 0.3;
+
+// Convert axial hex coordinates to pixel position (pointy-topped)
+vec2 hex_to_world(vec2 hex) {
+	float x = tile_size * (sqrt(31.5) * hex.x + sqrt(3.0) / 2.0 * hex.y);
+	float y = tile_size * (1.5 * hex.y);
+	return vec2(x, y);
+}
+
+// Signed distance to a regular hexagon
+float sdHex(vec2 p, float r) {
+	p = abs(p);
+	return max(dot(p, vec2(0.8660254, 0.5)), p.y) - r;
+}
+
+void fragment() {
+	vec2 local_pos = (SCREEN_UV * vec2(textureSize(TEXTURE, 0))) / zoom;
+
+	float alpha = texture(TEXTURE, UV).a;
+
+	// Clicked
+	vec2 click_center = hex_to_world(clicked_tile);
+	vec2 click_local = local_pos - click_center;
+	float click_dist = sdHex(click_local, tile_size * 0.5);
+	if (click_dist < 0.0) {
+		alpha *= click_opacity;
+	}
+
+	// Hovered
+	vec2 hover_center = hex_to_world(hovered_tile);
+	vec2 hover_local = local_pos - hover_center;
+	float hover_dist = sdHex(hover_local, tile_size * 0.5);
+	if (hover_dist < 0.0 && click_dist >= 0.0) {
+		alpha *= hover_opacity;
+	}
+
+	COLOR = texture(TEXTURE, UV) * vec4(1.0, 1.0, 1.0, alpha);
+}
+"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_fos0i"]
+shader = SubResource("Shader_cm0pq")
+shader_parameter/hovered_tile = Vector2(-9999, -9999)
+shader_parameter/clicked_tile = Vector2(-9999, -9999)
+shader_parameter/tile_size = 64.0
+shader_parameter/zoom = 1.0
+shader_parameter/hover_opacity = 0.6
+shader_parameter/click_opacity = 0.3
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_cm0pq"]
+texture = ExtResource("2_r0du0")
+margins = Vector2i(0, 8)
+separation = Vector2i(0, 8)
+texture_region_size = Vector2i(64, 88)
+use_texture_padding = false
+2:0/0 = 0
+3:0/0 = 0
+6:0/0 = 0
+7:0/0 = 0
+8:0/0 = 0
+9:0/0 = 0
+10:0/0 = 0
+11:0/0 = 0
+0:1/0 = 0
+1:1/0 = 0
+2:1/0 = 0
+3:1/0 = 0
+3:1/0/custom_data_0 = true
+4:1/0 = 0
+5:1/0 = 0
+6:1/0 = 0
+6:1/0/custom_data_0 = true
+7:1/0 = 0
+7:1/0/custom_data_0 = true
+8:1/0 = 0
+9:1/0 = 0
+10:1/0 = 0
+11:1/0 = 0
+12:1/0 = 0
+13:1/0 = 0
+14:1/0 = 0
+15:1/0 = 0
+0:2/0 = 0
+0:2/0/custom_data_0 = true
+1:2/0 = 0
+2:2/0 = 0
+3:2/0 = 0
+4:2/0 = 0
+5:2/0 = 0
+6:2/0 = 0
+7:2/0 = 0
+8:2/0 = 0
+9:2/0 = 0
+10:2/0 = 0
+11:2/0 = 0
+12:2/0 = 0
+13:2/0 = 0
+14:2/0 = 0
+15:2/0 = 0
+0:3/0 = 0
+0:3/0/custom_data_0 = true
+1:3/0 = 0
+1:3/0/custom_data_0 = true
+2:3/0 = 0
+2:3/0/custom_data_0 = true
+3:3/0 = 0
+3:3/0/custom_data_1 = true
+4:3/0 = 0
+5:3/0 = 0
+5:3/0/custom_data_0 = true
+8:3/0 = 0
+9:3/0 = 0
+0:4/0 = 0
+1:4/0 = 0
+2:4/0 = 0
+3:4/0 = 0
+4:4/0 = 0
+5:4/0 = 0
+6:4/0 = 0
+7:4/0 = 0
+7:4/0/custom_data_2 = true
+8:4/0 = 0
+9:4/0 = 0
+10:4/0 = 0
+11:4/0 = 0
+12:4/0 = 0
+13:4/0 = 0
+14:4/0 = 0
+15:4/0 = 0
+0:5/0 = 0
+1:5/0 = 0
+2:5/0 = 0
+3:5/0 = 0
+4:5/0 = 0
+5:5/0 = 0
+6:5/0 = 0
+8:5/0 = 0
+9:5/0 = 0
+10:5/0 = 0
+11:5/0 = 0
+12:5/0 = 0
+13:5/0 = 0
+14:5/0 = 0
+15:5/0 = 0
+2:6/0 = 0
+3:6/0 = 0
+4:6/0 = 0
+5:6/0 = 0
+6:6/0 = 0
+7:6/0 = 0
+8:6/0 = 0
+9:6/0 = 0
+12:6/0 = 0
+13:6/0 = 0
+14:6/0 = 0
+0:7/0 = 0
+1:7/0 = 0
+2:7/0 = 0
+3:7/0 = 0
+4:7/0 = 0
+5:7/0 = 0
+6:7/0 = 0
+7:7/0 = 0
+8:7/0 = 0
+9:7/0 = 0
+10:7/0 = 0
+11:7/0 = 0
+12:7/0 = 0
+13:7/0 = 0
+14:7/0 = 0
+15:7/0 = 0
+0:8/0 = 0
+1:8/0 = 0
+2:8/0 = 0
+3:8/0 = 0
+4:8/0 = 0
+5:8/0 = 0
+6:8/0 = 0
+7:8/0 = 0
+8:8/0 = 0
+9:8/0 = 0
+10:8/0 = 0
+11:8/0 = 0
+12:8/0 = 0
+13:8/0 = 0
+14:8/0 = 0
+15:8/0 = 0
+2:9/0 = 0
+3:9/0 = 0
+6:9/0 = 0
+7:9/0 = 0
+12:9/0 = 0
+13:9/0 = 0
+14:9/0 = 0
+15:9/0 = 0
+0:10/0 = 0
+1:10/0 = 0
+2:10/0 = 0
+3:10/0 = 0
+4:10/0 = 0
+5:10/0 = 0
+6:10/0 = 0
+7:10/0 = 0
+8:10/0 = 0
+9:10/0 = 0
+10:10/0 = 0
+11:10/0 = 0
+12:10/0 = 0
+13:10/0 = 0
+14:10/0 = 0
+15:10/0 = 0
+0:11/0 = 0
+1:11/0 = 0
+2:11/0 = 0
+3:11/0 = 0
+4:11/0 = 0
+5:11/0 = 0
+6:11/0 = 0
+7:11/0 = 0
+8:11/0 = 0
+9:11/0 = 0
+10:11/0 = 0
+11:11/0 = 0
+12:11/0 = 0
+13:11/0 = 0
+14:11/0 = 0
+15:11/0 = 0
+0:12/0 = 0
+1:12/0 = 0
+8:12/0 = 0
+9:12/0 = 0
+10:12/0 = 0
+11:12/0 = 0
+12:12/0 = 0
+13:12/0 = 0
+14:12/0 = 0
+0:13/0 = 0
+1:13/0 = 0
+2:13/0 = 0
+3:13/0 = 0
+4:13/0 = 0
+5:13/0 = 0
+6:13/0 = 0
+7:13/0 = 0
+8:13/0 = 0
+9:13/0 = 0
+10:13/0 = 0
+11:13/0 = 0
+12:13/0 = 0
+13:13/0 = 0
+14:13/0 = 0
+15:13/0 = 0
+0:14/0 = 0
+1:14/0 = 0
+2:14/0 = 0
+3:14/0 = 0
+4:14/0 = 0
+5:14/0 = 0
+6:14/0 = 0
+7:14/0 = 0
+8:14/0 = 0
+9:14/0 = 0
+10:14/0 = 0
+11:14/0 = 0
+12:14/0 = 0
+13:14/0 = 0
+14:14/0 = 0
+15:14/0 = 0
+0:16/0 = 0
+1:16/0 = 0
+0:17/0 = 0
+1:17/0 = 0
+1:0/0 = 0
+1:0/0/custom_data_0 = true
+0:0/0 = 0
+0:0/0/custom_data_0 = true
+4:0/0 = 0
+5:0/0 = 0
+5:0/0/custom_data_1 = true
+6:3/0 = 0
+7:3/0 = 0
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_3dxm6"]
+texture = ExtResource("4_fos0i")
+margins = Vector2i(0, 8)
+separation = Vector2i(0, 8)
+texture_region_size = Vector2i(64, 88)
+use_texture_padding = false
+0:0/0 = 0
+0:0/0/custom_data_0 = true
+1:0/0 = 0
+1:0/0/custom_data_0 = true
+2:0/0 = 0
+3:0/0 = 0
+4:0/0 = 0
+5:0/0 = 0
+5:0/0/custom_data_1 = true
+6:0/0 = 0
+0:1/0 = 0
+1:1/0 = 0
+2:1/0 = 0
+3:1/0 = 0
+4:1/0 = 0
+5:1/0 = 0
+6:1/0 = 0
+6:1/0/custom_data_0 = true
+0:2/0 = 0
+0:2/0/custom_data_0 = true
+1:2/0 = 0
+2:2/0 = 0
+3:2/0 = 0
+4:2/0 = 0
+5:2/0 = 0
+6:2/0 = 0
+0:3/0 = 0
+0:3/0/custom_data_0 = true
+1:3/0 = 0
+1:3/0/custom_data_0 = true
+2:3/0 = 0
+2:3/0/custom_data_0 = true
+3:3/0 = 0
+3:3/0/custom_data_1 = true
+4:3/0 = 0
+5:3/0 = 0
+5:3/0/custom_data_0 = true
+6:3/0 = 0
+0:4/0 = 0
+1:4/0 = 0
+2:4/0 = 0
+3:4/0 = 0
+4:4/0 = 0
+5:4/0 = 0
+6:4/0 = 0
+0:5/0 = 0
+1:5/0 = 0
+2:5/0 = 0
+3:5/0 = 0
+4:5/0 = 0
+5:5/0 = 0
+6:5/0 = 0
+0:6/0 = 0
+1:6/0 = 0
+2:6/0 = 0
+3:6/0 = 0
+4:6/0 = 0
+5:6/0 = 0
+6:6/0 = 0
+0:7/0 = 0
+1:7/0 = 0
+2:7/0 = 0
+3:7/0 = 0
+4:7/0 = 0
+5:7/0 = 0
+6:7/0 = 0
+0:8/0 = 0
+1:8/0 = 0
+2:8/0 = 0
+3:8/0 = 0
+4:8/0 = 0
+5:8/0 = 0
+6:8/0 = 0
+0:9/0 = 0
+7:1/0 = 0
+7:1/0/custom_data_0 = true
+7:2/0 = 0
+7:3/0 = 0
+7:4/0 = 0
+7:0/0 = 0
+
+[sub_resource type="TileSet" id="TileSet_fos0i"]
+tile_shape = 3
+tile_offset_axis = 1
+tile_size = Vector2i(72, 56)
+custom_data_layer_0/name = "CanBuild"
+custom_data_layer_0/type = 1
+custom_data_layer_1/name = "IsMineral"
+custom_data_layer_1/type = 1
+custom_data_layer_2/name = "IsCenter"
+custom_data_layer_2/type = 1
+sources/0 = SubResource("TileSetAtlasSource_cm0pq")
+sources/3 = SubResource("TileSetAtlasSource_3dxm6")
+
+[sub_resource type="LabelSettings" id="LabelSettings_kjvhd"]
+font_size = 21
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bg4s2"]
+bg_color = Color(0, 0.690196, 0.419608, 0.666667)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0, 0, 0, 1)
+corner_radius_top_left = 9
+corner_radius_top_right = 9
+corner_radius_bottom_right = 9
+corner_radius_bottom_left = 9
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hhcpw"]
+bg_color = Color(0, 0.394898, 0.243261, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0, 0, 0, 1)
+corner_radius_top_left = 9
+corner_radius_top_right = 9
+corner_radius_bottom_right = 9
+corner_radius_bottom_left = 9
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_mxvw5"]
+bg_color = Color(0.0980135, 0.709709, 0.449595, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.0142752, 0.0142752, 0.0142752, 1)
+corner_radius_top_left = 9
+corner_radius_top_right = 9
+corner_radius_bottom_right = 9
+corner_radius_bottom_left = 9
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hri7i"]
+resource_local_to_scene = true
+bg_color = Color(0.890778, 0.944453, 7.70092e-07, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0, 0, 0, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[sub_resource type="LabelSettings" id="LabelSettings_w3rk5"]
+font_color = Color(0, 0, 0, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_vi5kq"]
+font_size = 40
+
+[sub_resource type="LabelSettings" id="LabelSettings_5mkgo"]
+font_size = 20
+
+[sub_resource type="LabelSettings" id="LabelSettings_3ccbu"]
+font_size = 20
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_3ccbu"]
+bg_color = Color(0.697658, 0.0854617, 0, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_ny7u2"]
+font_color = Color(0, 0, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ny7u2"]
+bg_color = Color(0, 0.689953, 0.127849, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_x3yn0"]
+font_size = 40
+font_color = Color(0.683077, 0.683077, 0.683077, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_1w2xm"]
+font_size = 40
+font_color = Color(0.682353, 0.682353, 0.682353, 1)
+
+[node name="Main" type="Node2D"]
+script = ExtResource("8_trn2v")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(2500, 2500)
+script = ExtResource("2_uu6xs")
+min_pos = Vector2(2450, 2400)
+max_pos = Vector2(2600, 2850)
+
+[node name="TileMapLayer" type="TileMapLayer" parent="."]
+material = SubResource("ShaderMaterial_fos0i")
+position = Vector2(2500, 2500)
+tile_map_data = PackedByteArray("AAD/////AAACAAAAAAAAAAAAAAAEAAEAAAABAP//AAABAAAAAAACAAAAAAACAAAAAAACAP//AAADAAAAAAACAAEAAAACAAAAAAABAAAAAAACAAAAAAD//wAAAAAHAAQAAAAAAAEAAAAEAAEAAAAEAAAAAAAAAAAAAAADAAAAAAAAAAAAAAADAAEAAAAGAAAAAAAEAAIAAAAGAAAAAAAEAAEAAAAGAAAAAAAEAAMAAAAGAAAAAAADAAMAAAAGAAAAAAACAAMAAAADAAMAAAADAAIAAAAGAAAAAAACAAIAAAADAAMAAAABAAIAAAABAAMAAAABAAEAAAAAAAAAAAAAAAMAAAADAAMAAAAAAAIAAAAAAAAAAAABAAMAAAABAAMAAAACAAQAAAACAAMAAAABAAQAAAACAAMAAAAAAAQAAAAEAAMAAAD//wMAAAACAAMAAAD//wIAAAABAAAAAAD//wEAAAAAAAAAAAD+/wIAAAABAAAAAAD+/wMAAAABAAAAAAD+/wQAAAAAAAAAAAD9/wMAAAAAAAAAAAD9/wIAAAAAAAAAAAD8/wIAAAAAAAAAAAD8/wEAAAAAAAAAAAD7/wEAAAAAAAAAAAD7/wIAAAAFAAAAAAD6/wEAAAAGAAAAAAD7/wAAAAAAAAAAAAD6/wAAAAAGAAAAAAD5/wAAAAAGAAAAAAD5////AAAGAAAAAAD8/wMAAAAEAAIAAAD7/wMAAAAFAAIAAAD6/wMAAAAFAAIAAAD6/wIAAAAFAAIAAAD5/wIAAAAGAAAAAAD5/wEAAAAGAAAAAAD6////AAAGAAAAAAD7////AAAAAAAAAAD8/wAAAAACAAAAAAD9/wEAAAAHAAEAAAD9/wAAAAACAAAAAAD8////AAACAAAAAAD7//7/AAAGAAAAAAD6//7/AAAGAAAAAAD5//3/AAAHAAAAAAD9////AAAAAAQAAAD+/wEAAAAHAAEAAAD+/wAAAAAAAAQAAAD+////AAACAAAAAAD+//7/AAACAAAAAAD///7/AAAFAAAAAAAAAP7/AAAEAAIAAAD9//3/AAAGAAAAAAD9//7/AAACAAAAAAD///3/AAABAAAAAAADAP//AAACAAAAAAADAP7/AAAEAAAAAAACAP7/AAAEAAAAAAABAP7/AAAFAAAAAAAAAP//AAAEAAAAAAABAP3/AAAFAAIAAAACAP3/AAAGAAAAAAABAPz/AAAFAAIAAAAAAP3/AAAFAAIAAAD///z/AAAGAAAAAAD+//z/AAAGAAAAAAADAP3/AAAGAAAAAAD+//3/AAAGAAAAAAD9//z/AAAGAAAAAAD8//3/AAAGAAAAAAD8//7/AAAGAAAAAAD7//3/AAAGAAAAAAAFAAIAAAAGAAAAAAAGAAMAAAAHAAAAAAAGAAQAAAAHAAAAAAAFAAQAAAAHAAAAAAAEAAUAAAAGAAAAAAADAAQAAAAGAAAAAAADAAUAAAAGAAAAAAACAAUAAAAGAAAAAAAEAAQAAAAGAAAAAAAFAAMAAAAGAAAAAAABAAUAAAAGAAAAAAACAAYAAAAGAAAAAAADAAYAAAAHAAAAAAAEAAYAAAAHAAAAAAAFAAUAAAAHAAAAAAAGAAUAAAAHAAAAAAD//wQAAAACAAMAAAD8/wQAAAABAAIAAAAHAAEAAAAHAAAAAAAFAAEAAAAGAAAAAAAGAAIAAAAHAAAAAAAIAAEAAAAHAAAAAAAGAAEAAAAHAAAAAAAFAAAAAAAGAAAAAAAHAAAAAAAHAAAAAAAGAAAAAAAGAAAAAAAFAP//AAAGAAAAAAAEAP//AAAGAAAAAAAEAP7/AAAGAAAAAAADAPz/AAAHAAAAAAAAAPz/AAAGAAAAAAD///v/AAAGAAAAAAAEAP3/AAAHAAAAAAAFAP3/AAAHAAAAAAAFAP7/AAAGAAAAAAAGAP//AAAGAAAAAAAAAAUAAAACAAMAAAAAAAYAAAAGAAAAAAD//wYAAAAGAAAAAAD+/wYAAAAGAAAAAAD+/wUAAAAGAAAAAAD9/wUAAAAGAAAAAAD//wUAAAAGAAAAAAD9/wQAAAAGAAAAAAD8/wUAAAAGAAAAAAD8/wYAAAAHAAAAAAD8/wcAAAAHAAAAAAD9/wYAAAAHAAAAAAD+/wcAAAAHAAAAAAAAAAcAAAAHAAAAAAABAAcAAAAHAAAAAAABAAYAAAAGAAAAAAACAAcAAAAHAAAAAAAGAAYAAAAHAAAAAAAFAAYAAAAHAAAAAAAEAAcAAAAHAAAAAAADAAcAAAAGAAAAAAAAAAgAAAAHAAAAAAD//wcAAAAHAAAAAAD+/wgAAAAHAAAAAAD9/wcAAAAHAAAAAAD8/wgAAAAHAAAAAAD7/wcAAAAHAAAAAAD6/wcAAAAHAAAAAAD9/wgAAAAGAAAAAAD//wgAAAAGAAAAAAACAAgAAAAGAAAAAAAHAAUAAAAHAAAAAAD7/wYAAAAHAAAAAAD6/wYAAAAHAAAAAAD5/wUAAAAHAAAAAAD5/wQAAAAHAAAAAAD6/wUAAAAHAAAAAAD7/wUAAAAHAAAAAAD7/wQAAAAGAAAAAAD6/wQAAAAGAAAAAAD5/wMAAAAGAAAAAAD4/wQAAAAHAAAAAAD4/wMAAAAHAAAAAAD3/wIAAAAHAAAAAAD2/wIAAAAGAAAAAAD2/wEAAAAGAAAAAAD3/wEAAAAHAAAAAAD3/wAAAAAHAAAAAAD4/wAAAAAHAAAAAAD3////AAAHAAAAAAD4////AAAHAAAAAAD3//7/AAAHAAAAAAD4//7/AAAHAAAAAAD4/wEAAAAHAAAAAAD4/wIAAAAHAAAAAAD5//7/AAAHAAAAAAD6//3/AAAHAAAAAAD7//z/AAAHAAAAAAD8//z/AAAHAAAAAAD9//v/AAAHAAAAAAD+//v/AAAHAAAAAAD5//z/AAAHAAAAAAD4//3/AAAHAAAAAAD///r/AAAHAAAAAAD8//v/AAAGAAAAAAD7//v/AAAGAAAAAAD6//z/AAAHAAAAAAAAAPv/AAAHAAAAAAABAPv/AAAHAAAAAAACAPz/AAAHAAAAAAADAPv/AAAHAAAAAAAEAPz/AAAHAAAAAAAFAPz/AAAGAAAAAAAGAP7/AAAHAAAAAAAHAP7/AAAHAAAAAAAHAP//AAAHAAAAAAAIAAAAAAAHAAAAAAAIAAIAAAAHAAAAAAAIAAMAAAAHAAAAAAAIAAQAAAAHAAAAAAAIAAUAAAAGAAAAAAAHAAYAAAAGAAAAAAAHAAQAAAAHAAAAAAAHAAMAAAAHAAAAAAAHAAIAAAAHAAAAAAAKAAYAAAAGAAEAAAAJAAYAAAAGAAAAAAAIAAcAAAAGAAAAAAAIAAYAAAAGAAAAAAAJAAQAAAAGAAAAAAAJAAMAAAAGAAAAAAAJAAUAAAAGAAAAAAAJAAIAAAAGAAAAAAAJAAEAAAAGAAAAAAAJAAAAAAAGAAAAAAAJAP//AAAGAAAAAAAIAP//AAAGAAAAAAAKAAIAAAAGAAAAAAAKAAMAAAAGAAAAAAAKAAQAAAAGAAAAAAAKAAUAAAAGAAEAAAAKAAEAAAAGAAAAAAAKAAAAAAAGAAAAAAAKAP//AAAGAAEAAAAJAP7/AAAGAAAAAAAIAP7/AAAGAAAAAAAHAP3/AAAHAAAAAAAHAPz/AAAGAAAAAAAGAP3/AAAHAAAAAAAGAPz/AAAGAAAAAAAFAPv/AAAGAAAAAAAJAP3/AAAGAAEAAAAIAP3/AAAGAAAAAAAIAPz/AAAGAAEAAAAHAPv/AAAGAAEAAAAGAPv/AAAGAAEAAAAEAPv/AAAGAAAAAAADAPr/AAAHAAAAAAACAPv/AAAHAAAAAAACAPr/AAAGAAAAAAABAPr/AAAHAAAAAAAAAPr/AAAGAAAAAAD+//r/AAAHAAAAAAD9//r/AAAHAAAAAAD7//r/AAAGAAAAAAD2/wAAAAAGAAAAAAD2////AAAGAAAAAAD2//7/AAAGAAAAAAD3//3/AAAGAAAAAAD3//z/AAAGAAAAAAD2/wMAAAAGAAAAAAD3/wMAAAAHAAAAAAD3/wQAAAAGAAAAAAD3/wUAAAAGAAAAAAD4/wYAAAAGAAAAAAD4/wcAAAAGAAAAAAD5/wcAAAAGAAAAAAD5/wYAAAAGAAAAAAD4/wUAAAAHAAAAAAD6/wgAAAAGAAAAAAD7/wgAAAAGAAAAAAD8/wkAAAAGAAAAAAD9/wkAAAAGAAAAAAD+/wkAAAAGAAAAAAD//wkAAAAGAAAAAAAAAAkAAAAGAAAAAAABAAkAAAAGAAAAAAACAAkAAAAGAAAAAAADAAgAAAAGAAAAAAAEAAkAAAAGAAEAAAAFAAgAAAAGAAAAAAABAAgAAAAGAAAAAAAGAAgAAAAGAAAAAAAHAAcAAAAGAAAAAAAFAAcAAAAGAAAAAAAEAAgAAAAGAAAAAAAGAAcAAAAGAAAAAAAHAAgAAAAGAAAAAAD5/wgAAAAGAAEAAAD4/wgAAAAGAAEAAAD3/wcAAAAGAAEAAAD3/wYAAAAGAAAAAAD2/wYAAAAGAAEAAAD2/wUAAAAGAAAAAAD2/wQAAAAGAAAAAAD1/wMAAAAGAAAAAAD1/wIAAAAGAAAAAAD1/wEAAAAGAAAAAAD1/wAAAAAGAAAAAAD1////AAAGAAAAAAD1//7/AAAGAAAAAAD1//3/AAAGAAAAAAD2//3/AAAGAAAAAAD2//z/AAAGAAAAAAD3//v/AAAGAAAAAAD4//v/AAAGAAAAAAD5//r/AAAFAAEAAAD6//r/AAAFAAEAAAD8//r/AAAGAAAAAAD7//n/AAAGAAEAAAD6//v/AAAGAAAAAAD5//v/AAAGAAAAAAD4//z/AAAGAAAAAAD///n/AAAGAAAAAAABAPn/AAAGAAAAAAADAPn/AAAGAAAAAAACAPn/AAAGAAEAAAAAAPn/AAAGAAEAAAD+//n/AAAGAAAAAAD9//n/AAAGAAAAAAD8//n/AAAGAAEAAAAEAPr/AAAGAAAAAAAFAPn/AAAGAAEAAAAGAPr/AAAGAAEAAAAHAPr/AAAGAAEAAAAFAAkAAAAGAAEAAAADAAkAAAAGAAEAAAACAAoAAAAGAAEAAAABAAoAAAAGAAEAAAAAAAoAAAAGAAEAAAD//woAAAAGAAEAAAD+/woAAAAGAAEAAAD9/woAAAAGAAEAAAD8/woAAAAGAAEAAAD+/wsAAAAGAAEAAAD7/wkAAAAGAAEAAAD7/woAAAAEAAEAAAD8/wsAAAAFAAEAAAD9/wsAAAAGAAEAAAD6/woAAAAGAAEAAAD5/wkAAAAFAAEAAAD4/wkAAAAFAAEAAAD3/wgAAAAGAAEAAAD2/wgAAAAGAAEAAAD1/wcAAAAGAAEAAAD1/wYAAAAGAAEAAAD0/wYAAAAGAAEAAAD0/wUAAAAGAAEAAAD0/wQAAAAGAAEAAADz/wMAAAAGAAEAAAD0/wMAAAAGAAEAAAD1/wQAAAAFAAEAAAD1/wUAAAAGAAEAAAD2/wcAAAAGAAEAAAD6/wkAAAAGAAEAAAD0/wIAAAAGAAEAAAD0/wEAAAAGAAEAAAD0/wAAAAAGAAEAAAD0////AAAGAAEAAAD0//7/AAAGAAEAAAD0//3/AAAFAAEAAADz/wAAAAAFAAEAAADz/wEAAAAGAAEAAADz/wIAAAAFAAEAAADz/wQAAAAGAAEAAADz/wUAAAAGAAEAAADz////AAAGAAEAAADz//7/AAAGAAEAAADz//3/AAAFAAEAAAD0//z/AAAGAAEAAAD1//z/AAAGAAEAAAD1//v/AAAGAAEAAAD2//v/AAAGAAEAAAD3//r/AAAGAAEAAAD4//r/AAAGAAEAAAD5//n/AAAGAAEAAAD6//n/AAAGAAEAAAD9//j/AAAGAAEAAAD7//j/AAAGAAEAAAD8//j/AAAGAAEAAAD+//j/AAAFAAEAAAD///j/AAAGAAEAAAAAAPj/AAAGAAEAAAABAPj/AAAGAAEAAAACAPj/AAAGAAEAAAADAPj/AAAGAAEAAAAEAPn/AAAFAAEAAAAGAPn/AAAGAAEAAAAHAPn/AAAGAAEAAAAIAPv/AAAGAAEAAAAJAPv/AAAGAAEAAAAJAPz/AAAGAAEAAAAKAP3/AAAFAAEAAAAKAP7/AAAGAAEAAAALAP7/AAAGAAEAAAALAP//AAAGAAEAAAAFAPr/AAAGAAEAAAALAAAAAAAGAAEAAAALAAEAAAAEAAEAAAALAAIAAAAGAAEAAAALAAMAAAAGAAEAAAALAAQAAAAGAAEAAAALAAUAAAAEAAEAAAALAAYAAAAEAAEAAAAKAAcAAAAGAAEAAAAKAAgAAAAGAAEAAAAKAAkAAAAGAAEAAAALAAcAAAAGAAEAAAAJAAgAAAAGAAEAAAAIAAkAAAAGAAEAAAAHAAkAAAAGAAEAAAAGAAoAAAAGAAEAAAAGAAkAAAAGAAEAAAD8/wwAAAAFAAEAAAAIAPr/AAAFAAEAAAAMAAAAAAAFAAEAAAAAAAsAAAAEAAEAAAD7/wsAAAAGAAEAAAD6/wsAAAAGAAEAAAD5/woAAAAGAAEAAAD4/woAAAAGAAEAAAD3/wkAAAAGAAEAAAD2/wkAAAAGAAEAAAD1/wgAAAAGAAEAAAD0/wkAAAAGAAEAAAD0/wgAAAAGAAEAAADz/wgAAAAGAAEAAADz/wcAAAAGAAEAAADy/wcAAAAGAAEAAADz/wYAAAAGAAEAAADy/wYAAAAGAAEAAAD0/wcAAAAGAAEAAADy/wUAAAAGAAEAAADy/wQAAAAGAAEAAADy/wMAAAAGAAEAAADy/wIAAAAGAAEAAADy/wEAAAAGAAEAAADy/wAAAAAGAAEAAADy////AAAGAAEAAADy//7/AAAGAAEAAADy//3/AAAGAAEAAADy//z/AAAGAAEAAADy//v/AAAGAAEAAADz//v/AAAGAAEAAAD0//v/AAAGAAEAAADz//z/AAAGAAEAAAD1//r/AAAGAAEAAAD3//n/AAAGAAEAAAD4//n/AAAGAAEAAAD5//j/AAAGAAEAAAD6//j/AAAGAAEAAAD2//r/AAAGAAEAAAD0//r/AAAGAAEAAADz//r/AAAGAAEAAAD1//n/AAAGAAEAAAD2//n/AAAGAAEAAAD3//j/AAAGAAEAAAD4//j/AAAGAAEA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AADx//r/AAAGAAEAAAD0//n/AAAGAAEAAAD1//j/AAAGAAEAAAD2//j/AAAGAAEAAAD3//f/AAAGAAEAAAD4//f/AAAGAAEAAAD5//b/AAAGAAEAAAD6//b/AAAGAAEAAAD7//b/AAAGAAEAAAD8//b/AAAGAAEAAAD9//X/AAAGAAEAAAD+//b/AAAGAAEAAAD///X/AAAGAAEAAAAAAPb/AAAGAAEAAAD9//b/AAAGAAEAAAABAPX/AAAGAAEAAAADAPX/AAAGAAEAAAAEAPb/AAAGAAEAAAAGAPb/AAAGAAEAAAAHAPb/AAAGAAEAAAAIAPf/AAAGAAEAAAAJAPf/AAAGAAEAAAAKAPj/AAAGAAEAAAALAPj/AAAGAAEAAAAMAPn/AAAGAAEAAAAMAPr/AAAGAAEAAAANAPr/AAAGAAEAAAANAPv/AAAGAAEAAAALAPf/AAAGAAEAAAAKAPf/AAAGAAEAAAAJAPb/AAAGAAEAAAAFAPX/AAAGAAEAAAAEAPX/AAAGAAEAAAACAPX/AAAGAAEAAAABAPT/AAAGAAEAAAAAAPX/AAAGAAEAAAD///T/AAAGAAEAAAD+//X/AAAGAAEAAAD8//X/AAAGAAEAAAD7//X/AAAGAAEAAAA=")
+tile_set = SubResource("TileSet_fos0i")
+script = ExtResource("4_cm0pq")
+
+[node name="Mineral1" type="Sprite2D" parent="."]
+position = Vector2(2478, 2459)
+scale = Vector2(0.859375, 0.935896)
+texture = ExtResource("5_lgr22")
+
+[node name="Mineral2" type="Sprite2D" parent="."]
+position = Vector2(2536, 2706)
+scale = Vector2(0.453126, 0.40625)
+texture = ExtResource("3_cm0pq")
+
+[node name="Mineral3" type="Sprite2D" parent="."]
+position = Vector2(2267, 2680)
+scale = Vector2(0.484374, 0.462266)
+texture = ExtResource("7_trn2v")
+
+[node name="Mineral4" type="Sprite2D" parent="."]
+position = Vector2(2591, 2457)
+scale = Vector2(0.859375, 0.935896)
+texture = ExtResource("5_lgr22")
+
+[node name="BuildMenuCanvas" type="CanvasLayer" parent="."]
+script = ExtResource("9_c2ibq")
+
+[node name="BuildMenu" type="Panel" parent="BuildMenuCanvas"]
+z_index = 1
+offset_right = 482.0
+offset_bottom = 191.0
+
+[node name="BuildContainer" type="VBoxContainer" parent="BuildMenuCanvas/BuildMenu"]
+layout_mode = 0
+offset_right = 344.0
+offset_bottom = 152.0
+
+[node name="Build" type="Label" parent="BuildMenuCanvas/BuildMenu/BuildContainer"]
+layout_mode = 2
+text = "Build"
+label_settings = SubResource("LabelSettings_kjvhd")
+horizontal_alignment = 1
+
+[node name="Grid" type="GridContainer" parent="BuildMenuCanvas/BuildMenu/BuildContainer"]
+layout_mode = 2
+columns = 5
+
+[node name="HouseButton" type="Button" parent="BuildMenuCanvas/BuildMenu/BuildContainer/Grid"]
+custom_minimum_size = Vector2(90, 120)
+layout_mode = 2
+script = ExtResource("10_devvj")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="BuildMenuCanvas/BuildMenu/BuildContainer/Grid/HouseButton"]
+custom_minimum_size = Vector2(90, 0)
+layout_mode = 0
+offset_right = 64.0
+offset_bottom = 106.0
+
+[node name="Label" type="Label" parent="BuildMenuCanvas/BuildMenu/BuildContainer/Grid/HouseButton/VBoxContainer"]
+layout_mode = 2
+text = "House"
+horizontal_alignment = 1
+
+[node name="TextureRect" type="TextureRect" parent="BuildMenuCanvas/BuildMenu/BuildContainer/Grid/HouseButton/VBoxContainer"]
+custom_minimum_size = Vector2(0, 60)
+layout_mode = 2
+texture = ExtResource("9_c6i3y")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="BuildMenuCanvas/BuildMenu/BuildContainer/Grid/HouseButton/VBoxContainer"]
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="BuildMenuCanvas/BuildMenu/BuildContainer/Grid/HouseButton/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+texture = ExtResource("17_2gh4u")
+expand_mode = 2
+
+[node name="HouseMineralCost" type="Label" parent="BuildMenuCanvas/BuildMenu/BuildContainer/Grid/HouseButton/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "0"
+
+[node name="TextureRect2" type="TextureRect" parent="BuildMenuCanvas/BuildMenu/BuildContainer/Grid/HouseButton/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+texture = ExtResource("19_3b0ty")
+expand_mode = 2
+
+[node name="HouseEnergyCost" type="Label" parent="BuildMenuCanvas/BuildMenu/BuildContainer/Grid/HouseButton/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "0"
+
+[node name="MineButton" type="Button" parent="BuildMenuCanvas/BuildMenu/BuildContainer/Grid"]
+custom_minimum_size = Vector2(90, 120)
+layout_mode = 2
+script = ExtResource("12_3b0ty")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="BuildMenuCanvas/BuildMenu/BuildContainer/Grid/MineButton"]
+custom_minimum_size = Vector2(90, 0)
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Label" type="Label" parent="BuildMenuCanvas/BuildMenu/BuildContainer/Grid/MineButton/VBoxContainer"]
+layout_mode = 2
+text = "Mine"
+horizontal_alignment = 1
+
+[node name="TextureRect" type="TextureRect" parent="BuildMenuCanvas/BuildMenu/BuildContainer/Grid/MineButton/VBoxContainer"]
+custom_minimum_size = Vector2(0, 60)
+layout_mode = 2
+texture = ExtResource("12_fpfj3")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="BuildMenuCanvas/BuildMenu/BuildContainer/Grid/MineButton/VBoxContainer"]
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="BuildMenuCanvas/BuildMenu/BuildContainer/Grid/MineButton/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+texture = ExtResource("17_2gh4u")
+expand_mode = 2
+
+[node name="MineMineralCost" type="Label" parent="BuildMenuCanvas/BuildMenu/BuildContainer/Grid/MineButton/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "0"
+
+[node name="TextureRect2" type="TextureRect" parent="BuildMenuCanvas/BuildMenu/BuildContainer/Grid/MineButton/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+texture = ExtResource("19_3b0ty")
+expand_mode = 2
+
+[node name="MineEnergyCost" type="Label" parent="BuildMenuCanvas/BuildMenu/BuildContainer/Grid/MineButton/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "0"
+
+[node name="FarmButton" type="Button" parent="BuildMenuCanvas/BuildMenu/BuildContainer/Grid"]
+custom_minimum_size = Vector2(90, 0)
+layout_mode = 2
+script = ExtResource("14_bg4s2")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="BuildMenuCanvas/BuildMenu/BuildContainer/Grid/FarmButton"]
+custom_minimum_size = Vector2(90, 0)
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Label" type="Label" parent="BuildMenuCanvas/BuildMenu/BuildContainer/Grid/FarmButton/VBoxContainer"]
+layout_mode = 2
+text = "Farm"
+horizontal_alignment = 1
+
+[node name="TextureRect" type="TextureRect" parent="BuildMenuCanvas/BuildMenu/BuildContainer/Grid/FarmButton/VBoxContainer"]
+custom_minimum_size = Vector2(0, 60)
+layout_mode = 2
+texture = ExtResource("11_j4qnp")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="BuildMenuCanvas/BuildMenu/BuildContainer/Grid/FarmButton/VBoxContainer"]
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="BuildMenuCanvas/BuildMenu/BuildContainer/Grid/FarmButton/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+texture = ExtResource("17_2gh4u")
+expand_mode = 2
+
+[node name="FarmMineralCost" type="Label" parent="BuildMenuCanvas/BuildMenu/BuildContainer/Grid/FarmButton/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "0"
+
+[node name="TextureRect2" type="TextureRect" parent="BuildMenuCanvas/BuildMenu/BuildContainer/Grid/FarmButton/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+texture = ExtResource("19_3b0ty")
+expand_mode = 2
+
+[node name="FarmEnergyCost" type="Label" parent="BuildMenuCanvas/BuildMenu/BuildContainer/Grid/FarmButton/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "0"
+
+[node name="GeneratorButton" type="Button" parent="BuildMenuCanvas/BuildMenu/BuildContainer/Grid"]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+script = ExtResource("16_hhcpw")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="BuildMenuCanvas/BuildMenu/BuildContainer/Grid/GeneratorButton"]
+custom_minimum_size = Vector2(90, 0)
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+alignment = 1
+
+[node name="Label" type="Label" parent="BuildMenuCanvas/BuildMenu/BuildContainer/Grid/GeneratorButton/VBoxContainer"]
+layout_mode = 2
+text = "Generator"
+horizontal_alignment = 1
+
+[node name="TextureRect" type="TextureRect" parent="BuildMenuCanvas/BuildMenu/BuildContainer/Grid/GeneratorButton/VBoxContainer"]
+custom_minimum_size = Vector2(0, 60)
+layout_mode = 2
+texture = ExtResource("10_c2ibq")
+stretch_mode = 3
+
+[node name="HBoxContainer" type="HBoxContainer" parent="BuildMenuCanvas/BuildMenu/BuildContainer/Grid/GeneratorButton/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+
+[node name="TextureRect" type="TextureRect" parent="BuildMenuCanvas/BuildMenu/BuildContainer/Grid/GeneratorButton/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+texture = ExtResource("17_2gh4u")
+expand_mode = 2
+
+[node name="GeneratorMineralCost" type="Label" parent="BuildMenuCanvas/BuildMenu/BuildContainer/Grid/GeneratorButton/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "0"
+
+[node name="TextureRect2" type="TextureRect" parent="BuildMenuCanvas/BuildMenu/BuildContainer/Grid/GeneratorButton/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+texture = ExtResource("19_3b0ty")
+expand_mode = 2
+
+[node name="GeneratorEnergyCost" type="Label" parent="BuildMenuCanvas/BuildMenu/BuildContainer/Grid/GeneratorButton/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "0"
+
+[node name="TurretButton" type="Button" parent="BuildMenuCanvas/BuildMenu/BuildContainer/Grid"]
+custom_minimum_size = Vector2(95, 80)
+layout_mode = 2
+script = ExtResource("18_mxvw5")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="BuildMenuCanvas/BuildMenu/BuildContainer/Grid/TurretButton"]
+custom_minimum_size = Vector2(90, 0)
+layout_mode = 0
+offset_right = 64.0
+offset_bottom = 99.0
+
+[node name="Label" type="Label" parent="BuildMenuCanvas/BuildMenu/BuildContainer/Grid/TurretButton/VBoxContainer"]
+layout_mode = 2
+text = "Artillery"
+horizontal_alignment = 1
+
+[node name="TextureRect" type="TextureRect" parent="BuildMenuCanvas/BuildMenu/BuildContainer/Grid/TurretButton/VBoxContainer"]
+custom_minimum_size = Vector2(50, 60)
+layout_mode = 2
+texture = ExtResource("13_sc1dx")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="BuildMenuCanvas/BuildMenu/BuildContainer/Grid/TurretButton/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+
+[node name="TextureRect" type="TextureRect" parent="BuildMenuCanvas/BuildMenu/BuildContainer/Grid/TurretButton/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+texture = ExtResource("17_2gh4u")
+expand_mode = 2
+
+[node name="TurretMineralCost" type="Label" parent="BuildMenuCanvas/BuildMenu/BuildContainer/Grid/TurretButton/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "0"
+
+[node name="TextureRect2" type="TextureRect" parent="BuildMenuCanvas/BuildMenu/BuildContainer/Grid/TurretButton/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+texture = ExtResource("19_3b0ty")
+expand_mode = 2
+
+[node name="TurretEnergyCost" type="Label" parent="BuildMenuCanvas/BuildMenu/BuildContainer/Grid/TurretButton/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "0"
+
+[node name="CancelButton" type="Button" parent="BuildMenuCanvas/BuildMenu/BuildContainer"]
+layout_mode = 2
+text = "Cancel"
+script = ExtResource("15_j4qnp")
+
+[node name="StatsCanvas" type="CanvasLayer" parent="."]
+script = ExtResource("23_sqvbp")
+
+[node name="Panel" type="Panel" parent="StatsCanvas"]
+z_index = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -141.0
+offset_right = 111.0
+offset_bottom = 51.0
+grow_horizontal = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="StatsCanvas/Panel"]
+layout_mode = 0
+offset_right = 228.0
+offset_bottom = 50.0
+theme_override_constants/separation = 50
+
+[node name="VBoxContainer" type="VBoxContainer" parent="StatsCanvas/Panel/HBoxContainer"]
+layout_mode = 2
+
+[node name="PeopleContainer" type="HBoxContainer" parent="StatsCanvas/Panel/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="peopleIcon" type="TextureRect" parent="StatsCanvas/Panel/HBoxContainer/VBoxContainer/PeopleContainer"]
+layout_mode = 2
+texture = ExtResource("16_5tuhn")
+expand_mode = 2
+
+[node name="peopleCount" type="Label" parent="StatsCanvas/Panel/HBoxContainer/VBoxContainer/PeopleContainer"]
+layout_mode = 2
+text = "0"
+
+[node name="Label" type="Label" parent="StatsCanvas/Panel/HBoxContainer/VBoxContainer/PeopleContainer"]
+layout_mode = 2
+text = "/"
+
+[node name="peopleGoal" type="Label" parent="StatsCanvas/Panel/HBoxContainer/VBoxContainer/PeopleContainer"]
+layout_mode = 2
+text = "0"
+
+[node name="MineralsContainer" type="HBoxContainer" parent="StatsCanvas/Panel/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="mineralIcon" type="TextureRect" parent="StatsCanvas/Panel/HBoxContainer/VBoxContainer/MineralsContainer"]
+layout_mode = 2
+texture = ExtResource("17_2gh4u")
+expand_mode = 2
+
+[node name="mineralsCount" type="Label" parent="StatsCanvas/Panel/HBoxContainer/VBoxContainer/MineralsContainer"]
+layout_mode = 2
+text = "0"
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="StatsCanvas/Panel/HBoxContainer"]
+layout_mode = 2
+
+[node name="FoodContainer" type="HBoxContainer" parent="StatsCanvas/Panel/HBoxContainer/VBoxContainer2"]
+layout_mode = 2
+
+[node name="foodIcon" type="TextureRect" parent="StatsCanvas/Panel/HBoxContainer/VBoxContainer2/FoodContainer"]
+layout_mode = 2
+texture = ExtResource("18_devvj")
+expand_mode = 2
+
+[node name="foodCount" type="Label" parent="StatsCanvas/Panel/HBoxContainer/VBoxContainer2/FoodContainer"]
+layout_mode = 2
+text = "0"
+
+[node name="Label" type="Label" parent="StatsCanvas/Panel/HBoxContainer/VBoxContainer2/FoodContainer"]
+layout_mode = 2
+text = "/ day"
+
+[node name="EnergyContainer" type="HBoxContainer" parent="StatsCanvas/Panel/HBoxContainer/VBoxContainer2"]
+layout_mode = 2
+
+[node name="energyIcon" type="TextureRect" parent="StatsCanvas/Panel/HBoxContainer/VBoxContainer2/EnergyContainer"]
+layout_mode = 2
+texture = ExtResource("19_3b0ty")
+expand_mode = 2
+
+[node name="energyCount" type="Label" parent="StatsCanvas/Panel/HBoxContainer/VBoxContainer2/EnergyContainer"]
+layout_mode = 2
+text = "0"
+
+[node name="EndDayButton" type="Button" parent="StatsCanvas/Panel/HBoxContainer"]
+layout_mode = 2
+theme_override_styles/hover = SubResource("StyleBoxFlat_bg4s2")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_hhcpw")
+theme_override_styles/normal = SubResource("StyleBoxFlat_mxvw5")
+text = "End day"
+script = ExtResource("20_2gh4u")
+
+[node name="PlacedItems" type="Node2D" parent="."]
+z_index = 1
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(2484, 2567)
+texture = ExtResource("26_xrxkg")
+
+[node name="ErrorCanvas" type="CanvasLayer" parent="."]
+
+[node name="ErrorPanel" type="Panel" parent="ErrorCanvas"]
+offset_right = 482.0
+offset_bottom = 58.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_hri7i")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ErrorCanvas/ErrorPanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Error" type="Label" parent="ErrorCanvas/ErrorPanel/VBoxContainer"]
+layout_mode = 2
+text = "error"
+label_settings = SubResource("LabelSettings_w3rk5")
+horizontal_alignment = 1
+
+[node name="Cancel" type="Button" parent="ErrorCanvas/ErrorPanel/VBoxContainer"]
+layout_mode = 2
+text = "Cancel"
+script = ExtResource("28_hri7i")
+
+[node name="Aliens" type="Node2D" parent="."]
+z_index = 1
+
+[node name="ArtilleryCanvas" type="CanvasLayer" parent="."]
+
+[node name="FireButton" type="Button" parent="ArtilleryCanvas"]
+offset_top = 56.0
+offset_right = 347.0
+offset_bottom = 120.0
+script = ExtResource("29_5mvff")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ArtilleryCanvas/FireButton"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="ArtilleryCanvas/FireButton/VBoxContainer"]
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="ArtilleryCanvas/FireButton/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+texture = ExtResource("30_oye8v")
+
+[node name="Label" type="Label" parent="ArtilleryCanvas/FireButton/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "Fire artillery "
+
+[node name="Label2" type="Label" parent="ArtilleryCanvas/FireButton/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "       costs:"
+
+[node name="TextureRect2" type="TextureRect" parent="ArtilleryCanvas/FireButton/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+texture = ExtResource("19_3b0ty")
+expand_mode = 2
+
+[node name="artilleryCost" type="Label" parent="ArtilleryCanvas/FireButton/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "0"
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="ArtilleryCanvas/FireButton/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="ArtilleryCanvas/FireButton/VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+text = "remaining shots: "
+
+[node name="remainingShots" type="Label" parent="ArtilleryCanvas/FireButton/VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+text = "0"
+
+[node name="Mineral5" type="Sprite2D" parent="."]
+position = Vector2(2646, 2701)
+scale = Vector2(0.453126, 0.40625)
+texture = ExtResource("3_cm0pq")
+
+[node name="Mineral6" type="Sprite2D" parent="."]
+position = Vector2(2645, 2644)
+scale = Vector2(0.453126, 0.40625)
+texture = ExtResource("3_cm0pq")
+
+[node name="TextureRect" type="TextureRect" parent="."]
+z_index = -1
+offset_left = 1149.0
+offset_top = 1613.0
+offset_right = 3879.0
+offset_bottom = 3615.0
+texture = ExtResource("31_oye8v")
+
+[node name="HelpButtonCanvas" type="CanvasLayer" parent="."]
+
+[node name="HelpButton" type="Button" parent="HelpButtonCanvas"]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -70.0
+offset_bottom = 58.0
+grow_horizontal = 0
+script = ExtResource("32_sph85")
+
+[node name="Sprite2D" type="Sprite2D" parent="HelpButtonCanvas/HelpButton"]
+position = Vector2(38, 28)
+scale = Vector2(0.31422, 0.231855)
+texture = ExtResource("32_40n85")
+
+[node name="HelpTextCanvas" type="CanvasLayer" parent="."]
+script = ExtResource("34_o7g6l")
+
+[node name="HelpPanel" type="Panel" parent="HelpTextCanvas"]
+z_index = 2
+offset_left = 525.0
+offset_top = 211.0
+offset_right = 2119.0
+offset_bottom = 1191.0
+
+[node name="Label" type="Label" parent="HelpTextCanvas/HelpPanel"]
+z_index = 2
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.067
+anchor_right = 0.5
+anchor_bottom = 0.12
+offset_left = -52.5
+offset_top = -59.3
+offset_right = 46.5
+offset_bottom = -36.3
+grow_horizontal = 2
+text = "HELP"
+label_settings = SubResource("LabelSettings_vi5kq")
+horizontal_alignment = 1
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HelpTextCanvas/HelpPanel"]
+layout_mode = 0
+offset_left = 20.0
+offset_top = 65.0
+offset_right = 1097.0
+offset_bottom = 114.0
+theme_override_constants/separation = 13
+
+[node name="Label2" type="Label" parent="HelpTextCanvas/HelpPanel/VBoxContainer"]
+layout_mode = 2
+text = "STORY"
+label_settings = SubResource("LabelSettings_5mkgo")
+
+[node name="Label" type="Label" parent="HelpTextCanvas/HelpPanel/VBoxContainer"]
+layout_mode = 2
+text = "Earth is struggling, so it sent YOU and your crew to colonize new planets!
+You arived on a planet that has been given name Enyo and you have to set up big enough colony so that there can be a basic infrastructure 
+and a masive transport of people from Earth can begin
+Right as you arrived, you noticed signs of life and one of your crew members got eaten by an unknown animal!
+You must deffend your base from these aliens and not let another life go in vain."
+
+[node name="Label3" type="Label" parent="HelpTextCanvas/HelpPanel/VBoxContainer"]
+layout_mode = 2
+text = "INSTRUCTIONS"
+label_settings = SubResource("LabelSettings_3ccbu")
+
+[node name="Label4" type="Label" parent="HelpTextCanvas/HelpPanel/VBoxContainer"]
+layout_mode = 2
+text = "You can build multiple buildings, each serves it purpose and you wont be able to make it on the planet without having multiple of each!
+
+HOUSE - Server as an accomodation for your colonists. 
+each house can accomodate 10 people and new built houses are filled with new colonist just after the day ends. 
+Watch out! - new colonists wont move in, if you dont have enough farms! The ratio must always be 1 farm to 2 houses.
+
+MINE - Extracts useful resources from the planets mountains. After each day, you get 15 minerals
+Watch out! - Mines can be built only on tiles around the tile with a mineral icon
+
+FARM - Produces food for you colonists
+Watch out! - There always has to be enough farms to support your houses
+
+Generator - These generator are can only produce energy during the night, so after you end a day, next day you will be able to 
+use the energy that was stored in the bateries
+
+ARTILLERY - This is, for now, your only line of defense against the aliens. 
+Once you built an artillery, you will be able to take down those pesky aliens!
+
+
+SHOOTING
+Unlocked once artillery is built. 
+Aliens move constantly, but we get only a glimpse of their last position during the nightfall, when the sunset ilumnates their antenas for
+a while, before they go dark again. That means, that you have to observe the aliens position, figure out the pattern and always plan your 
+shot in advance! If the alien moves during the night to the same location you mark to be shot at during the day, the alien will be eliminated
+The number of shots you can prepare is determined by the number of turrets
+Watch out! - Aliens always move towards you rocket ship and will destroy everything building that crosses their path\""
+
+[node name="BackButtonCanvas" type="CanvasLayer" parent="."]
+
+[node name="BackButton" type="Button" parent="BackButtonCanvas"]
+offset_right = 70.0
+offset_bottom = 58.0
+text = "Back to menu"
+script = ExtResource("35_o7g6l")
+
+[node name="GameOverCanvas" type="CanvasLayer" parent="."]
+script = ExtResource("36_5mkgo")
+
+[node name="GameOverPanel" type="Panel" parent="GameOverCanvas"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -241.0
+offset_top = -29.0
+offset_right = 241.0
+offset_bottom = 29.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_3ccbu")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="GameOverCanvas/GameOverPanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 1.0
+offset_bottom = 104.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="GameOverText" type="Label" parent="GameOverCanvas/GameOverPanel/VBoxContainer"]
+layout_mode = 2
+text = "Game Over"
+label_settings = SubResource("LabelSettings_w3rk5")
+horizontal_alignment = 1
+
+[node name="Label" type="Label" parent="GameOverCanvas/GameOverPanel/VBoxContainer"]
+layout_mode = 2
+text = "Your ship was destoroyed, the aliens kill you one by one.."
+label_settings = SubResource("LabelSettings_ny7u2")
+horizontal_alignment = 1
+
+[node name="Back to menu" type="Button" parent="GameOverCanvas/GameOverPanel/VBoxContainer"]
+layout_mode = 2
+text = "Back to Main Menu"
+script = ExtResource("36_vi5kq")
+
+[node name="VictoryCanvas" type="CanvasLayer" parent="."]
+script = ExtResource("38_3ccbu")
+
+[node name="VictoryPanel" type="Panel" parent="VictoryCanvas"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -241.0
+offset_top = -29.0
+offset_right = 241.0
+offset_bottom = 29.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_ny7u2")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VictoryCanvas/VictoryPanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 1.0
+offset_bottom = 104.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VictoryText" type="Label" parent="VictoryCanvas/VictoryPanel/VBoxContainer"]
+layout_mode = 2
+text = "VICTORY!"
+label_settings = SubResource("LabelSettings_w3rk5")
+horizontal_alignment = 1
+
+[node name="Label" type="Label" parent="VictoryCanvas/VictoryPanel/VBoxContainer"]
+layout_mode = 2
+text = "You defended your colonists and built big enough colony!"
+label_settings = SubResource("LabelSettings_ny7u2")
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="Back to menu" type="Button" parent="VictoryCanvas/VictoryPanel/VBoxContainer"]
+layout_mode = 2
+text = "Back to Main Menu"
+script = ExtResource("36_vi5kq")
+
+[node name="NightCanvas" type="CanvasLayer" parent="."]
+layer = 0
+script = ExtResource("39_ny7u2")
+
+[node name="NightShader" type="Panel" parent="NightCanvas"]
+z_index = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -1735.0
+offset_top = -1009.0
+offset_right = 1661.0
+offset_bottom = 898.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="NightCanvas/NightShader"]
+layout_mode = 2
+offset_left = 1630.0
+offset_top = 993.5
+offset_right = 1783.0
+offset_bottom = 1048.5
+text = "Night n."
+label_settings = SubResource("LabelSettings_x3yn0")
+
+[node name="nightNumber" type="Label" parent="NightCanvas/NightShader"]
+layout_mode = 2
+offset_left = 1786.0
+offset_top = 996.5
+offset_right = 1809.0
+offset_bottom = 1051.5
+text = "0"
+label_settings = SubResource("LabelSettings_1w2xm")
+
+[connection signal="item_built" from="." to="BuildMenuCanvas" method="_on_main_item_built"]
+[connection signal="resources_changed" from="." to="StatsCanvas" method="_on_resources_changed"]
+[connection signal="throw_error" from="." to="ErrorCanvas/ErrorPanel/VBoxContainer/Cancel" method="_on_throw_error"]
+[connection signal="turret_built" from="." to="ArtilleryCanvas/FireButton" method="_on_main_turret_built"]
+[connection signal="marker_placed" from="TileMapLayer" to="ArtilleryCanvas/FireButton" method="_on_tile_map_layer_marker_placed"]
+[connection signal="ready" from="TileMapLayer" to="TileMapLayer" method="_on_ready"]
+[connection signal="build_requested" from="BuildMenuCanvas/BuildMenu/BuildContainer/Grid/HouseButton" to="." method="_on_build_requested"]
+[connection signal="pressed" from="BuildMenuCanvas/BuildMenu/BuildContainer/Grid/HouseButton" to="BuildMenuCanvas/BuildMenu/BuildContainer/Grid/HouseButton" method="_on_pressed"]
+[connection signal="build_requested" from="BuildMenuCanvas/BuildMenu/BuildContainer/Grid/MineButton" to="." method="_on_build_requested"]
+[connection signal="pressed" from="BuildMenuCanvas/BuildMenu/BuildContainer/Grid/MineButton" to="BuildMenuCanvas/BuildMenu/BuildContainer/Grid/MineButton" method="_on_pressed"]
+[connection signal="build_requested" from="BuildMenuCanvas/BuildMenu/BuildContainer/Grid/FarmButton" to="." method="_on_build_requested"]
+[connection signal="pressed" from="BuildMenuCanvas/BuildMenu/BuildContainer/Grid/FarmButton" to="BuildMenuCanvas/BuildMenu/BuildContainer/Grid/FarmButton" method="_on_pressed"]
+[connection signal="build_requested" from="BuildMenuCanvas/BuildMenu/BuildContainer/Grid/GeneratorButton" to="." method="_on_build_requested"]
+[connection signal="pressed" from="BuildMenuCanvas/BuildMenu/BuildContainer/Grid/GeneratorButton" to="BuildMenuCanvas/BuildMenu/BuildContainer/Grid/GeneratorButton" method="_on_pressed"]
+[connection signal="build_requested" from="BuildMenuCanvas/BuildMenu/BuildContainer/Grid/TurretButton" to="." method="_on_build_requested"]
+[connection signal="pressed" from="BuildMenuCanvas/BuildMenu/BuildContainer/Grid/TurretButton" to="BuildMenuCanvas/BuildMenu/BuildContainer/Grid/TurretButton" method="_on_pressed"]
+[connection signal="pressed" from="BuildMenuCanvas/BuildMenu/BuildContainer/CancelButton" to="BuildMenuCanvas/BuildMenu/BuildContainer/CancelButton" method="_on_pressed"]
+[connection signal="ready" from="StatsCanvas" to="StatsCanvas" method="_on_ready"]
+[connection signal="day_ended" from="StatsCanvas/Panel/HBoxContainer/EndDayButton" to="ArtilleryCanvas/FireButton" method="_on_end_day_button_day_ended"]
+[connection signal="game_over" from="StatsCanvas/Panel/HBoxContainer/EndDayButton" to="GameOverCanvas" method="_on_end_day_button_game_over"]
+[connection signal="nights_changed" from="StatsCanvas/Panel/HBoxContainer/EndDayButton" to="NightCanvas" method="_on_end_day_button_nights_changed"]
+[connection signal="pressed" from="StatsCanvas/Panel/HBoxContainer/EndDayButton" to="StatsCanvas/Panel/HBoxContainer/EndDayButton" method="_on_pressed"]
+[connection signal="ready" from="StatsCanvas/Panel/HBoxContainer/EndDayButton" to="StatsCanvas/Panel/HBoxContainer/EndDayButton" method="_on_ready"]
+[connection signal="resources_changed" from="StatsCanvas/Panel/HBoxContainer/EndDayButton" to="StatsCanvas" method="_on_resources_changed"]
+[connection signal="victory_achieved" from="StatsCanvas/Panel/HBoxContainer/EndDayButton" to="VictoryCanvas" method="_on_end_day_button_victory_achieved"]
+[connection signal="pressed" from="ErrorCanvas/ErrorPanel/VBoxContainer/Cancel" to="ErrorCanvas/ErrorPanel/VBoxContainer/Cancel" method="_on_pressed"]
+[connection signal="ready" from="ErrorCanvas/ErrorPanel/VBoxContainer/Cancel" to="ErrorCanvas/ErrorPanel/VBoxContainer/Cancel" method="_on_ready"]
+[connection signal="pressed" from="ArtilleryCanvas/FireButton" to="ArtilleryCanvas/FireButton" method="_on_pressed"]
+[connection signal="ready" from="ArtilleryCanvas/FireButton" to="ArtilleryCanvas/FireButton" method="_on_ready"]
+[connection signal="resources_changed" from="ArtilleryCanvas/FireButton" to="StatsCanvas" method="_on_resources_changed"]
+[connection signal="pressed" from="HelpButtonCanvas/HelpButton" to="HelpButtonCanvas/HelpButton" method="_on_pressed"]
+[connection signal="ready" from="HelpTextCanvas" to="HelpTextCanvas" method="_on_ready"]
+[connection signal="pressed" from="BackButtonCanvas/BackButton" to="BackButtonCanvas/BackButton" method="_on_pressed"]
+[connection signal="resources_changed" from="BackButtonCanvas/BackButton" to="StatsCanvas" method="_on_resources_changed"]
+[connection signal="ready" from="GameOverCanvas" to="GameOverCanvas" method="_on_ready"]
+[connection signal="pressed" from="GameOverCanvas/GameOverPanel/VBoxContainer/Back to menu" to="GameOverCanvas/GameOverPanel/VBoxContainer/Back to menu" method="_on_pressed"]
+[connection signal="ready" from="GameOverCanvas/GameOverPanel/VBoxContainer/Back to menu" to="GameOverCanvas/GameOverPanel/VBoxContainer/Back to menu" method="_on_ready"]
+[connection signal="ready" from="VictoryCanvas" to="VictoryCanvas" method="_on_ready"]
+[connection signal="pressed" from="VictoryCanvas/VictoryPanel/VBoxContainer/Back to menu" to="VictoryCanvas/VictoryPanel/VBoxContainer/Back to menu" method="_on_pressed"]
+[connection signal="ready" from="VictoryCanvas/VictoryPanel/VBoxContainer/Back to menu" to="VictoryCanvas/VictoryPanel/VBoxContainer/Back to menu" method="_on_ready"]
+[connection signal="resources_changed" from="VictoryCanvas/VictoryPanel/VBoxContainer/Back to menu" to="StatsCanvas" method="_on_resources_changed"]
+[connection signal="ready" from="NightCanvas" to="NightCanvas" method="_on_ready"]
