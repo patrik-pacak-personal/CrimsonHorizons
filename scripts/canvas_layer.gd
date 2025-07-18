@@ -4,7 +4,7 @@ func _ready():
 	# Assuming your panel is a child named "BuildMenu"
 	$BuildMenu.visible = false
 	
-	# Initialiye costs
+	# Initialize costs
 	var houseEnergy = $BuildMenu/BuildContainer/Grid/HouseButton/VBoxContainer/HBoxContainer/HouseEnergyCost
 	var houseMineral = $BuildMenu/BuildContainer/Grid/HouseButton/VBoxContainer/HBoxContainer/HouseMineralCost
 	houseEnergy.text = str(Data.building_costs["house"]["energy"])
