@@ -24,7 +24,18 @@ States="*res://scripts/states.gd"
 window/size/viewport_width=1920
 window/size/viewport_height=1080
 window/size/mode=3
+window/vsync/vsync_mode=0
 
 [dotnet]
 
 project/assembly_name="PO_project"
+
+[rendering]
+
+textures/canvas_textures/default_texture_filter=3
+textures/default_filters/anisotropic_filtering_level=1
+anti_aliasing/quality/msaa_2d=1
+textures/decals/filter=1
+textures/light_projectors/filter=1
+2d/snap/snap_2d_transforms_to_pixel=true
+2d/snap/snap_2d_vertices_to_pixel=true

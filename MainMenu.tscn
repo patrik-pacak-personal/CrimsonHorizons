@@ -2,8 +2,8 @@
 
 [ext_resource type="Texture2D" uid="uid://bbyk235tlnm38" path="res://backgrounds/menuBackground.png" id="1_eiy7p"]
 [ext_resource type="Texture2D" uid="uid://cwyykt7ds1p45" path="res://backgrounds/game_name.png" id="2_h7a2f"]
-[ext_resource type="Script" uid="uid://deguayj5mne4l" path="res://start_button.gd" id="3_h7a2f"]
-[ext_resource type="Script" uid="uid://dhvm4v474ucpl" path="res://exit.gd" id="4_qoqlk"]
+[ext_resource type="Script" uid="uid://deguayj5mne4l" path="res://scripts/start_button.gd" id="3_h7a2f"]
+[ext_resource type="Script" uid="uid://dhvm4v474ucpl" path="res://scripts/exit.gd" id="4_qoqlk"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_eiy7p"]
 font_color = Color(0, 0, 0, 1)
