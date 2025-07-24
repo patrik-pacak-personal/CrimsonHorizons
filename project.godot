@@ -24,7 +24,11 @@ EnemyManager="*res://NewScripts/AutoLoads/Managers/enemy_manager.gd"
 ResourcesManager="*res://NewScripts/AutoLoads/Managers/resources_manager.gd"
 BuildingManager="*res://NewScripts/AutoLoads/Managers/building_manager.gd"
 AimAndShootManager="*res://NewScripts/AutoLoads/Managers/aim_and_shoot_manager.gd"
-SingalHub="*res://NewScripts/AutoLoads/Systems/singal_hub.gd"
+SignalHub="*res://NewScripts/AutoLoads/Systems/signal_hub.gd"
+TileMapLayerActions="*res://NewScripts/AutoLoads/Managers/tile_map_layer_actions.gd"
+Utilities="*res://NewScripts/AutoLoads/Utilities/utilities.gd"
+CustomTileData="*res://NewScripts/AutoLoads/Data/custom_tile_data.gd"
+Resources="*res://NewScripts/AutoLoads/Data/resources.gd"
 
 [display]
 

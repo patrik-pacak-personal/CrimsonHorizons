@@ -1,7 +1,9 @@
 extends Button
 
-signal build_requested(name)
-
-func _on_pressed():
-	var number = randi() % 2 + 1
-	emit_signal("build_requested","turret"+str(number))
+func _on_ready() -> void:
+	self.connect("pressed", func() -> void:
+		SignalHub.build_requested.emit(Constants.TurretString + str(rnd_num()))
+	)
+	
+func rnd_num() -> int:
+	return randi() % 2 + 1

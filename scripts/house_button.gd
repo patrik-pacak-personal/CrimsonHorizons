@@ -1,7 +1,6 @@
 extends Button
 
-signal build_requested(name)
-
-func _on_pressed():
-	var number = randi() % 3 + 1
-	emit_signal("build_requested","house"+str(number))
+func _on_ready() -> void:
+	self.connect("pressed", func() -> void:
+		SignalHub.build_requested.emit(Constants.HouseString + Utilities.rnd_num_str(3))
+	)

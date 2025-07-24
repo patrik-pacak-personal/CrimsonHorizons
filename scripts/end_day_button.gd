@@ -25,13 +25,13 @@ func _on_pressed() -> void:
 
 	
 func start_night() -> void:
-	var nightShader = get_node("/root/Main/NightCanvas/NightShader")
+	var nightShader = get_node("/root/Main/UiScene/NightCanvas/NightShader")
 	nightShader.visible = true
 	States.nightN += 1
 	emit_signal("nights_changed")
 
 func end_night() -> void:
-	var nightShader = get_node("/root/Main/NightCanvas/NightShader")
+	var nightShader = get_node("/root/Main/UiScene/NightCanvas/NightShader")
 	nightShader.visible = false
 	
 func give_resources() -> void:
@@ -88,9 +88,9 @@ func find_center_tile() -> Vector2i:
 	return Vector2i.ZERO
 	
 func spawn_and_move_aliens():
-	var tileMapLayer = get_node("/root/Main/TileMapLayer")
-	var prefabsNode = get_node("/root/Main/Prefabs")
-	var aliensNode = get_node("/root/Main/Aliens")	
+	var tileMapLayer = get_node("/root/Main/GameplayScene/TileMapLayer")
+	var prefabsNode = get_node("/root/Main/GameplayScene/Prefabs")
+	var aliensNode = get_node("/root/Main/GameplayScene/Aliens")	
 	var center_tile: Vector2i = find_center_tile()
 	if  (randi() % 2) == 1:
 		if center_tile == Vector2i.ZERO:
@@ -134,9 +134,9 @@ func check_for_killed_aliens():
 	remove_all_crosshairs()
 
 func kill_alien(tile_pos: Vector2i):
-	var aliens_node = get_node("/root/Main/Aliens")
-	var placed_items_node = get_node("/root/Main/PlacedItems")
-	var tile_map = get_node("/root/Main/TileMapLayer")
+	var aliens_node = get_node("/root/Main/GameplayScene/Aliens")
+	var placed_items_node = get_node("/root/Main/GameplayScene/PlacedItems")
+	var tile_map = get_node("/root/Main/GameplayScene/TileMapLayer")
 
 	# Get world position of the tile
 	var world_pos = tile_map.to_global(tile_map.map_to_local(tile_pos))
@@ -151,8 +151,8 @@ func kill_alien(tile_pos: Vector2i):
 	Data.set_tile_flag(tile_pos, "hasAlien", false)
 	
 func remove_all_crosshairs():
-	var placed_items_node = get_node("/root/Main/PlacedItems")
-	var tile_map = get_node("/root/Main/TileMapLayer")
+	var placed_items_node = get_node("/root/Main/GameplayScene/PlacedItems")
+	var tile_map = get_node("/root/Main/GameplayScene/TileMapLayer")
 
 	var tiles_to_clear := []
 
@@ -200,7 +200,7 @@ func move_alien_towards(
 
 	Data.set_tile_flag(current_tile, "hasAlien", true)
 
-	var placed_items_node = get_node("/root/Main/PlacedItems")  # Adjust to match your node path
+	var placed_items_node = get_node("/root/Main/GameplayScene/PlacedItems")  # Adjust to match your node path
 	for item in placed_items_node.get_children():
 		var item_tile = tileMapLayer.local_to_map(tileMapLayer.to_local(item.global_position))
 		if item_tile == current_tile and Data.get_tile_flag(item_tile,"hasCrosshair") == false:
@@ -227,7 +227,7 @@ func determinerBuildingToRemove(tile:Vector2i) -> void:
 		Data.turrets -=1
 
 func get_outskirts_tiles() -> Array:
-	var tileMapLayer = get_node("/root/Main/TileMapLayer")
+	var tileMapLayer = get_node("/root/Main/GameplayScene/TileMapLayer")
 	var all_tiles = tileMapLayer.get_used_cells()
 	var outskirts = []
 

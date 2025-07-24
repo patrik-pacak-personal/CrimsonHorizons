@@ -1,7 +1,6 @@
 extends Button
 
-signal build_requested(name)
-
-func _on_pressed():
-	var number = randi() % 2 + 1
-	emit_signal("build_requested","generator0")
+func _on_ready() -> void:
+	self.connect("pressed", func() -> void:
+		SignalHub.build_requested.emit(Constants.GeneratorString)
+	)

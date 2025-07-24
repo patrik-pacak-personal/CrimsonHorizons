@@ -4,6 +4,6 @@ signal resources_changed()
 
 func _on_pressed() -> void:
 	States.ResetStates()
-	Data.ResetResources()
+	Resources.ResetResources()
 	emit_signal("resources_changed")
-	get_tree().change_scene_to_file("res://MainMenu.tscn")
+	get_tree().change_scene_to_file("res://scenes/MainMenu.tscn")

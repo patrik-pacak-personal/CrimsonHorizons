@@ -1,0 +1,94 @@
+[gd_scene load_steps=15 format=3 uid="uid://dp46jto0hcxvt"]
+
+[ext_resource type="Texture2D" uid="uid://8kbp4ihv8luo" path="res://buildings/house1.png" id="1_ue37o"]
+[ext_resource type="Texture2D" uid="uid://csxbbgr5d1hsl" path="res://buildings/house2.png" id="2_h86qu"]
+[ext_resource type="Texture2D" uid="uid://b6i5t3m3282i5" path="res://buildings/house3.png" id="3_0kv5d"]
+[ext_resource type="Texture2D" uid="uid://c48jo4sx5odjn" path="res://buildings/mine.png" id="4_6wxnb"]
+[ext_resource type="Texture2D" uid="uid://bym5a6bvscdq" path="res://buildings/mine2.png" id="5_x063p"]
+[ext_resource type="Texture2D" uid="uid://b6wkvtw4v8b6y" path="res://buildings/generator.png" id="6_0cvxa"]
+[ext_resource type="Texture2D" uid="uid://du68sv8upmly0" path="res://buildings/farm1.png" id="7_pwhbf"]
+[ext_resource type="Texture2D" uid="uid://bkva4awo6limn" path="res://buildings/farm2.png" id="8_cv38f"]
+[ext_resource type="Texture2D" uid="uid://bjmsru4vfme2i" path="res://buildings/turret1.png" id="9_kq5jp"]
+[ext_resource type="Texture2D" uid="uid://woirsl21s7re" path="res://buildings/turret2.png" id="10_dhcg2"]
+[ext_resource type="Texture2D" uid="uid://bkpcj8k4uci4s" path="res://buildings/alien1.png" id="11_we5lc"]
+[ext_resource type="Texture2D" uid="uid://cwk10kuqg4u1u" path="res://buildings/alien2.png" id="12_f045a"]
+[ext_resource type="Texture2D" uid="uid://b2mjjc4cfibvp" path="res://buildings/alien3.png" id="13_6trww"]
+[ext_resource type="Texture2D" uid="uid://bkbpbffxh3ckw" path="res://icons/crosshair.png" id="14_2ani7"]
+
+[node name="Prefabs" type="Node2D"]
+
+[node name="house1" type="Node2D" parent="."]
+
+[node name="Sprite2D" type="Sprite2D" parent="house1"]
+texture = ExtResource("1_ue37o")
+
+[node name="house2" type="Node2D" parent="."]
+
+[node name="Sprite2D" type="Sprite2D" parent="house2"]
+texture = ExtResource("2_h86qu")
+
+[node name="house3" type="Node2D" parent="."]
+
+[node name="Sprite2D" type="Sprite2D" parent="house3"]
+position = Vector2(0, 5)
+texture = ExtResource("3_0kv5d")
+
+[node name="mine1" type="Node2D" parent="."]
+
+[node name="Sprite2D" type="Sprite2D" parent="mine1"]
+texture = ExtResource("4_6wxnb")
+
+[node name="mine2" type="Node2D" parent="."]
+
+[node name="Sprite2D" type="Sprite2D" parent="mine2"]
+texture = ExtResource("5_x063p")
+
+[node name="generator0" type="Node2D" parent="."]
+
+[node name="Sprite2D" type="Sprite2D" parent="generator0"]
+texture = ExtResource("6_0cvxa")
+
+[node name="farm1" type="Node2D" parent="."]
+position = Vector2(0, 20)
+
+[node name="Sprite2D" type="Sprite2D" parent="farm1"]
+position = Vector2(0, 9)
+texture = ExtResource("7_pwhbf")
+
+[node name="farm2" type="Node2D" parent="."]
+position = Vector2(0, 20)
+
+[node name="Sprite2D" type="Sprite2D" parent="farm2"]
+position = Vector2(0, 11)
+texture = ExtResource("8_cv38f")
+
+[node name="turret1" type="Node2D" parent="."]
+
+[node name="Sprite2D" type="Sprite2D" parent="turret1"]
+texture = ExtResource("9_kq5jp")
+
+[node name="turret2" type="Node2D" parent="."]
+
+[node name="Sprite2D" type="Sprite2D" parent="turret2"]
+texture = ExtResource("10_dhcg2")
+
+[node name="alien1" type="Node2D" parent="."]
+
+[node name="Sprite2D" type="Sprite2D" parent="alien1"]
+texture = ExtResource("11_we5lc")
+
+[node name="alien2" type="Node2D" parent="."]
+
+[node name="Sprite2D" type="Sprite2D" parent="alien2"]
+texture = ExtResource("12_f045a")
+
+[node name="alien3" type="Node2D" parent="."]
+
+[node name="Sprite2D" type="Sprite2D" parent="alien3"]
+texture = ExtResource("13_6trww")
+
+[node name="targetCrosshair" type="Node2D" parent="."]
+
+[node name="Sprite2D" type="Sprite2D" parent="targetCrosshair"]
+position = Vector2(0, 12)
+texture = ExtResource("14_2ani7")

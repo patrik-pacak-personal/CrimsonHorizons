@@ -1,0 +1,57 @@
+[gd_scene load_steps=6 format=3 uid="uid://cygwdjm0n0d68"]
+
+[ext_resource type="Texture2D" uid="uid://cwyykt7ds1p45" path="res://backgrounds/game_name.png" id="1_ow34m"]
+[ext_resource type="Texture2D" uid="uid://bbyk235tlnm38" path="res://backgrounds/menuBackground.png" id="2_l72w3"]
+[ext_resource type="Script" uid="uid://deguayj5mne4l" path="res://scripts/start_button.gd" id="3_826wr"]
+[ext_resource type="Script" uid="uid://dhvm4v474ucpl" path="res://scripts/exit.gd" id="4_ucygd"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_eiy7p"]
+font_color = Color(0, 0, 0, 1)
+shadow_color = Color(0, 0, 0, 0.0980392)
+shadow_offset = Vector2(2, 1)
+
+[node name="MainMenu" type="Node2D"]
+
+[node name="TextureRect" type="TextureRect" parent="."]
+offset_left = -889.0
+offset_top = -52.0
+offset_right = 899.0
+offset_bottom = 61.0
+texture = ExtResource("1_ow34m")
+metadata/_edit_use_anchors_ = true
+
+[node name="Camera2D" type="Camera2D" parent="."]
+editor_draw_limits = true
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+z_index = -1
+position = Vector2(-0.999992, 6)
+scale = Vector2(1.46512, 1.23673)
+texture = ExtResource("2_l72w3")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+offset_left = -238.0
+offset_top = 152.0
+offset_right = 233.0
+offset_bottom = 270.0
+
+[node name="StartButton" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+text = "START"
+script = ExtResource("3_826wr")
+
+[node name="Exit" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+text = "EXIT"
+script = ExtResource("4_ucygd")
+
+[node name="Label" type="Label" parent="."]
+offset_left = -176.0
+offset_top = 78.0
+offset_right = 178.0
+offset_bottom = 101.0
+text = "One Colony and a few VERY angry neighbors..."
+label_settings = SubResource("LabelSettings_eiy7p")
+
+[connection signal="pressed" from="VBoxContainer/StartButton" to="VBoxContainer/StartButton" method="_on_pressed"]
+[connection signal="pressed" from="VBoxContainer/Exit" to="VBoxContainer/Exit" method="_on_pressed"]

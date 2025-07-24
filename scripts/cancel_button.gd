@@ -1,5 +1,5 @@
 extends Button
 
 func _on_pressed() -> void:
-	var menu = get_node("/root/Main/BuildMenuCanvas/BuildMenu")
+	var menu = get_node("/root/Main/UiScene/BuildMenuCanvas/BuildMenu")
 	menu.visible = false
