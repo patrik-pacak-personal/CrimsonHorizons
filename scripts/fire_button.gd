@@ -35,6 +35,5 @@ func _on_main_turret_built() -> void:
 func update_remaining_shots() -> void:
 	$VBoxContainer/HBoxContainer2/remainingShots.text = str(States.remainingShots)
 
-
 func _on_end_day_button_day_ended() -> void:
 	$VBoxContainer/HBoxContainer2/remainingShots.text = str(States.remainingShots)
