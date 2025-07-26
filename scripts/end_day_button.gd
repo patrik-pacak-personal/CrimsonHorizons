@@ -37,17 +37,17 @@ func end_night() -> void:
 func give_resources() -> void:
 	var required_farms = int(ceil(houses / 2.0))
 	if farms >= required_farms and farms != 0:
-		Data.resources["people"] = houses * Data.building_gains["house"]
-	Data.resources["minerals"] =Data.resources["minerals"] + mines * Data.building_gains["mine"]	
-	Data.resources["energy"] = Data.resources["energy"] + generators * Data.building_gains["generator"]
-	Data.resources["food"] = farms * Data.building_gains["farm"]
+		Resources.resources["people"] = houses * Resources.building_gains["house"]
+	Resources.resources["minerals"] =Resources.resources["minerals"] + mines * Resources.building_gains["mine"]	
+	Resources.resources["energy"] = Resources.resources["energy"] + generators * Resources.building_gains["generator"]
+	Resources.resources["food"] = farms * Resources.building_gains["farm"]
 	
 	emit_signal("resources_changed")
 	
 func count_buildings() -> void:
 	reset_to_base_numbers()
-	for tile_pos in Data.tile_flags.keys():
-		var flags = Data.tile_flags[tile_pos]
+	for tile_pos in CustomTileData.tile_flags.keys():
+		var flags = CustomTileData.tile_flags[tile_pos]
 
 		if flags.get("house"):
 			houses +=1
@@ -61,14 +61,14 @@ func count_buildings() -> void:
 			generators +=1
 
 	set_counts_globally()
-	Data.emit_signal("resources_changed")
+	Resources.emit_signal("resources_changed")
 	
 func set_counts_globally() -> void:
-	Data.houses = houses
-	Data.mines = mines
-	Data.farms = farms
-	Data.generators = generators
-	Data.turrets = turrets
+	Resources.houses = houses
+	Resources.mines = mines
+	Resources.farms = farms
+	Resources.generators = generators
+	Resources.turrets = turrets
 
 func reset_to_base_numbers() -> void:
 	houses =0;
@@ -82,8 +82,8 @@ func _on_ready() -> void:
 	item_prefabs = null
 	
 func find_center_tile() -> Vector2i:
-	for pos in Data.tile_flags.keys():
-		if Data.tile_flags[pos].get("IsCenter"):
+	for pos in CustomTileData.tile_flags.keys():
+		if CustomTileData.tile_flags[pos].get("IsCenter"):
 			return pos
 	return Vector2i.ZERO
 	
@@ -124,12 +124,12 @@ func spawn_and_move_aliens():
 		await move_alien_towards(alien, center_tile,tileMapLayer,aliensNode)	
 		
 func check_for_victory():
-	if Data.houses > 6 and Data.farms > 3:
+	if Resources.houses > 6 and Resources.farms > 3:
 		emit_signal("victory_achieved")
 
 func check_for_killed_aliens():
-	for tile_pos in Data.tile_flags.keys():
-		if Data.get_tile_flag(tile_pos, "hasAlien") and Data.get_tile_flag(tile_pos, "hasCrosshair"):
+	for tile_pos in CustomTileData.tile_flags.keys():
+		if CustomTileData.get_tile_flag(tile_pos, "hasAlien") and CustomTileData.get_tile_flag(tile_pos, "hasCrosshair"):
 			kill_alien(tile_pos)
 	remove_all_crosshairs()
 
@@ -148,7 +148,7 @@ func kill_alien(tile_pos: Vector2i):
 			break
 
 	# Clear flags from Data
-	Data.set_tile_flag(tile_pos, "hasAlien", false)
+	CustomTileData.set_tile_flag(tile_pos, "hasAlien", false)
 	
 func remove_all_crosshairs():
 	var placed_items_node = get_node("/root/Main/GameplayScene/PlacedItems")
@@ -157,8 +157,8 @@ func remove_all_crosshairs():
 	var tiles_to_clear := []
 
 	# Step 1: Find all tiles with a crosshair
-	for tile_pos in Data.tile_flags.keys():
-		if Data.get_tile_flag(tile_pos, "hasCrosshair"):
+	for tile_pos in CustomTileData.tile_flags.keys():
+		if CustomTileData.get_tile_flag(tile_pos, "hasCrosshair"):
 			tiles_to_clear.append(tile_pos)
 
 	# Step 2: Remove crosshair nodes and clear flags
@@ -171,7 +171,7 @@ func remove_all_crosshairs():
 				break
 
 		# Clear the flag
-		Data.set_tile_flag(tile_pos, "hasCrosshair", false)
+		CustomTileData.set_tile_flag(tile_pos, "hasCrosshair", false)
 	
 func move_alien_towards(
 	alien: Node2D, 
@@ -186,7 +186,7 @@ func move_alien_towards(
 	var tilemap_local_pos = tileMapLayer.to_local(alien_global_pos)
 	var current_tile = tileMapLayer.local_to_map(tilemap_local_pos)
 	
-	Data.set_tile_flag(current_tile, "hasAlien", false)
+	CustomTileData.set_tile_flag(current_tile, "hasAlien", false)
 
 	for i in range(steps):
 		var direction = (target_tile - current_tile).sign()
@@ -198,12 +198,12 @@ func move_alien_towards(
 	var new_tile_pos = tileMapLayer.map_to_local(current_tile)
 	alien.global_position = tileMapLayer.to_global(new_tile_pos)
 
-	Data.set_tile_flag(current_tile, "hasAlien", true)
+	CustomTileData.set_tile_flag(current_tile, "hasAlien", true)
 
 	var placed_items_node = get_node("/root/Main/GameplayScene/PlacedItems")  # Adjust to match your node path
 	for item in placed_items_node.get_children():
 		var item_tile = tileMapLayer.local_to_map(tileMapLayer.to_local(item.global_position))
-		if item_tile == current_tile and Data.get_tile_flag(item_tile,"hasCrosshair") == false:
+		if item_tile == current_tile and CustomTileData.get_tile_flag(item_tile,"hasCrosshair") == false:
 			item.queue_free()
 			determinerBuildingToRemove(item_tile)
 			break
@@ -215,16 +215,16 @@ func move_alien_towards(
 	
 	
 func determinerBuildingToRemove(tile:Vector2i) -> void:
-	if Data.get_tile_flag(tile,"house"):
-		Data.houses -=1
-	if Data.get_tile_flag(tile,"mine"):
-		Data.mines -=1
-	if Data.get_tile_flag(tile,"generator"):
-		Data.generators -=1
-	if Data.get_tile_flag(tile,"farm"):
-		Data.farms -=1
-	if Data.get_tile_flag(tile,"turret"):
-		Data.turrets -=1
+	if CustomTileData.get_tile_flag(tile,"house"):
+		Resources.houses -=1
+	if CustomTileData.get_tile_flag(tile,"mine"):
+		Resources.mines -=1
+	if CustomTileData.get_tile_flag(tile,"generator"):
+		Resources.generators -=1
+	if CustomTileData.get_tile_flag(tile,"farm"):
+		Resources.farms -=1
+	if CustomTileData.get_tile_flag(tile,"turret"):
+		Resources.turrets -=1
 
 func get_outskirts_tiles() -> Array:
 	var tileMapLayer = get_node("/root/Main/GameplayScene/TileMapLayer")
@@ -275,6 +275,6 @@ func get_flat_top_neighbors(tile: Vector2i) -> Array:
 	return neighbors
 	
 func reset_turret_charges() -> void:
-	States.remainingShots = Data.turrets
+	States.remainingShots = Resources.turrets
 	emit_signal("day_ended")
 	

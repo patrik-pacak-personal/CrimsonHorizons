@@ -3,7 +3,7 @@ extends Button
 signal resources_changed()
 
 func _on_ready() -> void:
-	$VBoxContainer/HBoxContainer/artilleryCost.text = str(Data.actions_costs["fire_artillery"]["energy"])
+	$VBoxContainer/HBoxContainer/artilleryCost.text = str(Resources.actions_costs["fire_artillery"]["energy"])
 	self.visible = false
 
 func _on_pressed() -> void:
@@ -17,7 +17,7 @@ func _on_pressed() -> void:
 		set_default()
 		
 func _on_tile_map_layer_marker_placed() -> void:
-	Data.resources["energy"] -=5;
+	Resources.resources["energy"] -=5;
 	emit_signal("resources_changed")
 	set_default()
 	update_remaining_shots()

@@ -38,7 +38,7 @@ func build_item(item_name: String, tile: Vector2i):
 		emit_signal("throw_error","Not enough resources to build a "+ base_name)
 		return
 	
-	if Data.get_tile_flag(States.selected_tile,"occupied"):
+	if CustomTileData.get_tile_flag(States.selected_tile,"occupied"):
 		emit_signal("throw_error","This place is already occupied by another building")
 		return
 		
@@ -74,8 +74,8 @@ func build_item(item_name: String, tile: Vector2i):
 	print("Placed", item_name, "at", tile)
 	
 	pay_resources(item_name)
-	Data.set_tile_flag(States.selected_tile, "occupied", true)
-	Data.set_tile_flag(States.selected_tile, base_name, true)
+	CustomTileData.set_tile_flag(States.selected_tile, "occupied", true)
+	CustomTileData.set_tile_flag(States.selected_tile, base_name, true)
 	emit_signal("item_built")
 	
 	if base_name == "turret":
@@ -90,13 +90,13 @@ func pay_resources(building_name: String):
 	for key in building.keys():
 		if key == "energy":
 			var amount = building[key]
-			if Data.resources.has("energy"):				
-				Data.resources["energy"] -= amount
+			if Resources.resources.has("energy"):				
+				Resources.resources["energy"] -= amount
 				emit_signal("resources_changed")
 		if key == "minerals":
 			var amount = building[key]
-			if Data.resources.has("minerals"):
-				Data.resources["minerals"] -= amount
+			if Resources.resources.has("minerals"):
+				Resources.resources["minerals"] -= amount
 				emit_signal("resources_changed")
 				
 func can_pay(building_name: String) -> bool:
@@ -104,11 +104,11 @@ func can_pay(building_name: String) -> bool:
 
 	for key in building.keys():
 		var cost = building[key]
-		if not Data.resources.has(key):
+		if not Resources.resources.has(key):
 			print("Missing resource:", key)
 			return false
-		if Data.resources[key] < cost:
-			print("Not enough", key, "- needed:", cost, "available:", Data.resources[key])
+		if Resources.resources[key] < cost:
+			print("Not enough", key, "- needed:", cost, "available:", Resources.resources[key])
 			return false
 	return true
 				
@@ -120,11 +120,11 @@ func get_building_cost_object(item_name:String) -> Dictionary:
 	var base_name = item_name.substr(0, item_name.length() - 1)
 
 	# Step 2: Look up building data
-	if not Data.building_costs.has(base_name):
+	if not Resources.building_costs.has(base_name):
 		print("No building data for:", base_name)
 		return {}
 
-	return Data.building_costs[base_name]
+	return Resources.building_costs[base_name]
 	
 func check_for_minerals(selected_tile: Vector2i) -> bool:
 	var neighbors = get_flat_top_neighbors(selected_tile)

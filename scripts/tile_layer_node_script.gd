@@ -85,5 +85,5 @@ func place_target_marker(tile_pos: Vector2i) -> void:
 	# Add the instance to the scene
 	placed_items.add_child(marker_instance)
 	
-	Data.set_tile_flag(tile_pos,"hasCrosshair",true)
+	CustomTileData.set_tile_flag(tile_pos,"hasCrosshair",true)
 	emit_signal("marker_placed")

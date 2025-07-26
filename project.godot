@@ -16,7 +16,6 @@ config/features=PackedStringArray("4.4", "Forward Plus")
 
 [autoload]
 
-Data="*res://NewScripts/AutoLoads/Data/data.gd"
 States="*res://NewScripts/AutoLoads/Data/states.gd"
 Constants="*res://NewScripts/AutoLoads/Data/constants.gd"
 GameLoopManager="*res://NewScripts/AutoLoads/Managers/game_loop_manager.gd"
