@@ -9,3 +9,9 @@ func set_tile_flag(pos: Vector2i, key: String, value):
 
 func get_tile_flag(pos: Vector2i, key: String) -> bool:
 	return tile_flags.has(pos) and tile_flags[pos].get(key, false)
+
+func find_center_tile() -> Vector2i:
+	for pos in tile_flags.keys():
+		if tile_flags[pos].get("IsCenter"):
+			return pos
+	return Vector2i.ZERO

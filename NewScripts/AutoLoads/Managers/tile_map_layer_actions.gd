@@ -10,7 +10,7 @@ signal handle_left_click
 func _ready():
 	SignalHub.handle_map_click.connect(_handle_click_on_map)
 	SignalHub.handle_map_hover.connect(_handle_hover)
-	SignalHub.tileMapLayer_ready.connect(_handle_hover)
+	SignalHub.tileMapLayer_ready.connect(_handle_ready)
 	
 func populate_tile_flags_from_tilemap(tilemap: TileMapLayer):
 	for pos in tilemap.get_used_cells():
@@ -44,7 +44,7 @@ func _handle_click_on_map(tileMapLayer : TileMapLayer):
 	if tileMapLayer.get_cell_source_id(tile_coords) != -1:
 		States.selected_tile = tile_coords
 		if States.shooting:
-			place_target_marker(tile_coords,tileMapLayer)
+			SignalHub.place_marker.emit(tile_coords,tileMapLayer)
 		else:
 			_show_build_menu()
 			
@@ -101,30 +101,5 @@ func _set_tile_source(coords: Vector2i, source_id: int, tileMapLayer: TileMapLay
 
 	# Force immediate update (optional, can be deferred for performance)
 	tileMapLayer.update_internals()
-
-func place_target_marker(tile_pos: Vector2i,tileMapLayer: TileMapLayer) -> void:
-	var prefabs_node := get_node("/root/Main/Prefabs")
-	var placed_items := get_node("/root/Main/PlacedItems")
-	# Find the original marker node 
-	var original_marker := prefabs_node.get_node("targetCrosshair")
-	if original_marker == null:
-		print("TargetMarker not found!")
-		return
-
-	# Duplicate the marker
-	var marker_instance := original_marker.duplicate(true)
-
-	# Convert tile position to world space
-	var tile_global_pos := tileMapLayer.to_global(tileMapLayer.map_to_local(tile_pos))
-
-	# Convert to local space of parent node (so it positions correctly)
-	var marker_local_pos = prefabs_node.to_local(tile_global_pos)
-	marker_instance.position = marker_local_pos
-
-	# Add the instance to the scene
-	placed_items.add_child(marker_instance)
-	
-	CustomTileData.set_tile_flag(tile_pos,"hasCrosshair",true)
-	emit_signal("marker_placed")
 
 	

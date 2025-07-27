@@ -4,6 +4,12 @@ var tilemap_layer: TileMapLayer = null
 var placed_items: Node2D = null
 var item_prefabs: Node2D = null
 
+var houses =0;
+var mines =0;
+var generators =0;
+var turrets = 0;
+var farms = 0;
+
 signal resources_changed()
 signal item_built()
 signal turret_built()
@@ -16,6 +22,8 @@ func _on_build_requested(name: Variant) -> void:
 #Connect all the neccesary signals 
 func _ready():
 	SignalHub.build_requested.connect(_on_build_requested)
+	SignalHub.count_buildings.connect(count_buildings)
+	SignalHub.on_reset.connect(reset_building_counts)
 	
 #Set all the neccesary stuff for the builder to work
 func set_prefabs(node:Node2D) -> void:
@@ -34,7 +42,7 @@ func build_item(item_name: String, tile: Vector2i):
 			emit_signal("throw_error","Mine can be built only around minerals")
 			return
 	
-	if can_pay(item_name) == false:
+	if Resources.can_pay(item_name) == false:
 		emit_signal("throw_error","Not enough resources to build a "+ base_name)
 		return
 	
@@ -73,7 +81,7 @@ func build_item(item_name: String, tile: Vector2i):
 	placed_items.add_child(instance)
 	print("Placed", item_name, "at", tile)
 	
-	pay_resources(item_name)
+	Resources.pay_resources(item_name)
 	CustomTileData.set_tile_flag(States.selected_tile, "occupied", true)
 	CustomTileData.set_tile_flag(States.selected_tile, base_name, true)
 	emit_signal("item_built")
@@ -81,50 +89,6 @@ func build_item(item_name: String, tile: Vector2i):
 	if base_name == "turret":
 		States.turretBuilt = true
 		emit_signal("turret_built")
-			
-	
-func pay_resources(building_name: String):
-	var building = get_building_cost_object(building_name)
-
-	# Step 3: Pay resource costs
-	for key in building.keys():
-		if key == "energy":
-			var amount = building[key]
-			if Resources.resources.has("energy"):				
-				Resources.resources["energy"] -= amount
-				emit_signal("resources_changed")
-		if key == "minerals":
-			var amount = building[key]
-			if Resources.resources.has("minerals"):
-				Resources.resources["minerals"] -= amount
-				emit_signal("resources_changed")
-				
-func can_pay(building_name: String) -> bool:
-	var building = get_building_cost_object(building_name)
-
-	for key in building.keys():
-		var cost = building[key]
-		if not Resources.resources.has(key):
-			print("Missing resource:", key)
-			return false
-		if Resources.resources[key] < cost:
-			print("Not enough", key, "- needed:", cost, "available:", Resources.resources[key])
-			return false
-	return true
-				
-func get_building_cost_object(item_name:String) -> Dictionary:
-	if item_name.length() <= 1:
-		print("Invalid building name.")
-		return {}
-	# Step 1: Remove the last letter
-	var base_name = item_name.substr(0, item_name.length() - 1)
-
-	# Step 2: Look up building data
-	if not Resources.building_costs.has(base_name):
-		print("No building data for:", base_name)
-		return {}
-
-	return Resources.building_costs[base_name]
 	
 func check_for_minerals(selected_tile: Vector2i) -> bool:
 	var neighbors = get_flat_top_neighbors(selected_tile)
@@ -136,6 +100,29 @@ func check_for_minerals(selected_tile: Vector2i) -> bool:
 
 	return false
 	
+func count_buildings() -> void:
+	reset_building_counts()
+	for tile_pos in CustomTileData.tile_flags.keys():
+		var flags = CustomTileData.tile_flags[tile_pos]
+
+		if flags.get(Constants.HouseString):
+			Resources.houses +=1
+		if flags.get(Constants.MineString):
+			Resources.mines +=1
+		if flags.get(Constants.FarmString):
+			Resources.farms  +=1
+		if flags.get(Constants.TurretString):
+			Resources.turrets +=1
+		if flags.get(Constants.GeneratorString):
+			Resources.generators +=1
+
+func reset_building_counts() -> void:
+	Resources.houses =0;
+	Resources.mines =0;
+	Resources.generators =0;
+	Resources.turrets = 0;
+	Resources.farms = 0;
+
 func get_flat_top_neighbors(tile: Vector2i) -> Array:
 	var even_q := [
 		Vector2i(1, 0),    # E

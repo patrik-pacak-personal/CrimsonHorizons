@@ -1,7 +1,6 @@
 extends CanvasLayer
 
 func _ready():
-	# Assuming your panel is a child named "BuildMenu"
 	$BuildMenu.visible = false
 	
 	# Initialize costs

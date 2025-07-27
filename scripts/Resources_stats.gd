@@ -1,25 +1,20 @@
 extends CanvasLayer
 
-
-func _on_resources_changed() -> void:
-	reloadResources()
-
-
 func _on_ready() -> void:
-	var people = $Panel/HBoxContainer/VBoxContainer/PeopleContainer/peopleGoal
-	people.text = str(Resources.resources["peopleGoal"])
-	
+	var peopleGoal = $Panel/HBoxContainer/VBoxContainer/PeopleContainer/peopleGoal
+	peopleGoal.text = str(Resources.default_resources["peopleGoal"])
 	reloadResources()
+	SignalHub.update_resources_ui.connect(reloadResources)
 
 func reloadResources():
 	var people = $Panel/HBoxContainer/VBoxContainer/PeopleContainer/peopleCount
-	people.text = str(Resources.resources["people"])
+	people.text = str(Resources.people)
 	
 	var minerals = $Panel/HBoxContainer/VBoxContainer/MineralsContainer/mineralsCount
-	minerals.text = str(Resources.resources["minerals"])
+	minerals.text = str(Resources.minerals)
 	
 	var energy = $Panel/HBoxContainer/VBoxContainer2/EnergyContainer/energyCount
-	energy.text = str(Resources.resources["energy"])
+	energy.text = str(Resources.energy)
 	
 	var food = $Panel/HBoxContainer/VBoxContainer2/FoodContainer/foodCount
-	food.text = str(Resources.resources["food"])
+	food.text = str(Resources.food)

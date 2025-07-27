@@ -28,6 +28,8 @@ TileMapLayerActions="*res://NewScripts/AutoLoads/Managers/tile_map_layer_actions
 Utilities="*res://NewScripts/AutoLoads/Utilities/utilities.gd"
 CustomTileData="*res://NewScripts/AutoLoads/Data/custom_tile_data.gd"
 Resources="*res://NewScripts/AutoLoads/Data/resources.gd"
+DayNightManager="*res://NewScripts/AutoLoads/Managers/day_night_manager.gd"
+HexTilesUtils="*res://NewScripts/AutoLoads/Utilities/hex_tiles_utils.gd"
 
 [display]
 
