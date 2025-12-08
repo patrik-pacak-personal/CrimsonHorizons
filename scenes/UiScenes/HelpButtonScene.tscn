@@ -1,0 +1,24 @@
+[gd_scene load_steps=3 format=3 uid="uid://d1hcnhkqxlb6s"]
+
+[ext_resource type="Script" uid="uid://cifcsydeavty3" path="res://NewScripts/UIscripts/HelpDialog/help_button.gd" id="1_1k6mh"]
+[ext_resource type="Texture2D" uid="uid://bwx0u0ybfuxw3" path="res://icons/questionMark.png" id="2_cyviw"]
+
+[node name="HelpButtonScene" type="Node2D"]
+
+[node name="HelpButtonCanvas" type="CanvasLayer" parent="."]
+
+[node name="HelpButton" type="Button" parent="HelpButtonCanvas"]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -70.0
+offset_bottom = 58.0
+grow_horizontal = 0
+script = ExtResource("1_1k6mh")
+
+[node name="Sprite2D" type="Sprite2D" parent="HelpButtonCanvas/HelpButton"]
+position = Vector2(38, 28)
+scale = Vector2(0.31422, 0.231855)
+texture = ExtResource("2_cyviw")
+
+[connection signal="pressed" from="HelpButtonCanvas/HelpButton" to="HelpButtonCanvas/HelpButton" method="_on_pressed"]

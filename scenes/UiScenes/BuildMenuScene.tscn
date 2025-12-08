@@ -1,0 +1,275 @@
+[gd_scene load_steps=16 format=3 uid="uid://n410w766m5uw"]
+
+[ext_resource type="Script" uid="uid://begp7nomk5k6i" path="res://scripts/build_menu_costs.gd" id="1_lutdu"]
+[ext_resource type="Script" uid="uid://b6dneqlysccuf" path="res://scripts/house_button.gd" id="2_nvi6h"]
+[ext_resource type="Texture2D" uid="uid://b6i5t3m3282i5" path="res://buildings/house3.png" id="3_kly35"]
+[ext_resource type="Texture2D" uid="uid://b8xi6h4cfb546" path="res://icons/mineralIcon.png" id="4_ew0nu"]
+[ext_resource type="Texture2D" uid="uid://ctqm41xsn88xu" path="res://icons/energyIcon.png" id="5_fynky"]
+[ext_resource type="Script" uid="uid://if3uurqvb48y" path="res://scripts/mine_button.gd" id="6_i1exm"]
+[ext_resource type="Texture2D" uid="uid://c48jo4sx5odjn" path="res://buildings/mine.png" id="7_noido"]
+[ext_resource type="Script" uid="uid://bhwavm6dty7gi" path="res://scripts/farm_button.gd" id="8_dsvcm"]
+[ext_resource type="Texture2D" uid="uid://du68sv8upmly0" path="res://buildings/farm1.png" id="9_cyucq"]
+[ext_resource type="Script" uid="uid://cxhjhclcchu75" path="res://scripts/generator_button.gd" id="10_63x5h"]
+[ext_resource type="Texture2D" uid="uid://b6wkvtw4v8b6y" path="res://buildings/generator.png" id="11_qft5m"]
+[ext_resource type="Script" uid="uid://caf3feqdcl2ce" path="res://scripts/turrent_button.gd" id="12_rdgcm"]
+[ext_resource type="Texture2D" uid="uid://bjmsru4vfme2i" path="res://buildings/turret1.png" id="13_4ai86"]
+[ext_resource type="Script" uid="uid://crffbytmqfp7o" path="res://scripts/cancel_button.gd" id="14_ifl77"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_7rj6v"]
+font_size = 21
+
+[node name="BuildMenuScene" type="Node2D"]
+
+[node name="BuildMenuCanvas" type="CanvasLayer" parent="."]
+script = ExtResource("1_lutdu")
+
+[node name="BuildMenu" type="Panel" parent="BuildMenuCanvas"]
+z_index = 1
+offset_right = 482.0
+offset_bottom = 191.0
+
+[node name="BuildContainer" type="VBoxContainer" parent="BuildMenuCanvas/BuildMenu"]
+layout_mode = 0
+offset_right = 344.0
+offset_bottom = 152.0
+
+[node name="Build" type="Label" parent="BuildMenuCanvas/BuildMenu/BuildContainer"]
+layout_mode = 2
+text = "Build"
+label_settings = SubResource("LabelSettings_7rj6v")
+horizontal_alignment = 1
+
+[node name="Grid" type="GridContainer" parent="BuildMenuCanvas/BuildMenu/BuildContainer"]
+layout_mode = 2
+columns = 5
+
+[node name="HouseButton" type="Button" parent="BuildMenuCanvas/BuildMenu/BuildContainer/Grid"]
+custom_minimum_size = Vector2(90, 120)
+layout_mode = 2
+script = ExtResource("2_nvi6h")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="BuildMenuCanvas/BuildMenu/BuildContainer/Grid/HouseButton"]
+custom_minimum_size = Vector2(90, 0)
+layout_mode = 0
+offset_right = 64.0
+offset_bottom = 106.0
+
+[node name="Label" type="Label" parent="BuildMenuCanvas/BuildMenu/BuildContainer/Grid/HouseButton/VBoxContainer"]
+layout_mode = 2
+text = "House"
+horizontal_alignment = 1
+
+[node name="TextureRect" type="TextureRect" parent="BuildMenuCanvas/BuildMenu/BuildContainer/Grid/HouseButton/VBoxContainer"]
+custom_minimum_size = Vector2(0, 60)
+layout_mode = 2
+texture = ExtResource("3_kly35")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="BuildMenuCanvas/BuildMenu/BuildContainer/Grid/HouseButton/VBoxContainer"]
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="BuildMenuCanvas/BuildMenu/BuildContainer/Grid/HouseButton/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+texture = ExtResource("4_ew0nu")
+expand_mode = 2
+
+[node name="HouseMineralCost" type="Label" parent="BuildMenuCanvas/BuildMenu/BuildContainer/Grid/HouseButton/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "0"
+
+[node name="TextureRect2" type="TextureRect" parent="BuildMenuCanvas/BuildMenu/BuildContainer/Grid/HouseButton/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+texture = ExtResource("5_fynky")
+expand_mode = 2
+
+[node name="HouseEnergyCost" type="Label" parent="BuildMenuCanvas/BuildMenu/BuildContainer/Grid/HouseButton/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "0"
+
+[node name="MineButton" type="Button" parent="BuildMenuCanvas/BuildMenu/BuildContainer/Grid"]
+custom_minimum_size = Vector2(90, 120)
+layout_mode = 2
+script = ExtResource("6_i1exm")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="BuildMenuCanvas/BuildMenu/BuildContainer/Grid/MineButton"]
+custom_minimum_size = Vector2(90, 0)
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Label" type="Label" parent="BuildMenuCanvas/BuildMenu/BuildContainer/Grid/MineButton/VBoxContainer"]
+layout_mode = 2
+text = "Mine"
+horizontal_alignment = 1
+
+[node name="TextureRect" type="TextureRect" parent="BuildMenuCanvas/BuildMenu/BuildContainer/Grid/MineButton/VBoxContainer"]
+custom_minimum_size = Vector2(0, 60)
+layout_mode = 2
+texture = ExtResource("7_noido")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="BuildMenuCanvas/BuildMenu/BuildContainer/Grid/MineButton/VBoxContainer"]
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="BuildMenuCanvas/BuildMenu/BuildContainer/Grid/MineButton/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+texture = ExtResource("4_ew0nu")
+expand_mode = 2
+
+[node name="MineMineralCost" type="Label" parent="BuildMenuCanvas/BuildMenu/BuildContainer/Grid/MineButton/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "0"
+
+[node name="TextureRect2" type="TextureRect" parent="BuildMenuCanvas/BuildMenu/BuildContainer/Grid/MineButton/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+texture = ExtResource("5_fynky")
+expand_mode = 2
+
+[node name="MineEnergyCost" type="Label" parent="BuildMenuCanvas/BuildMenu/BuildContainer/Grid/MineButton/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "0"
+
+[node name="FarmButton" type="Button" parent="BuildMenuCanvas/BuildMenu/BuildContainer/Grid"]
+custom_minimum_size = Vector2(90, 0)
+layout_mode = 2
+script = ExtResource("8_dsvcm")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="BuildMenuCanvas/BuildMenu/BuildContainer/Grid/FarmButton"]
+custom_minimum_size = Vector2(90, 0)
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Label" type="Label" parent="BuildMenuCanvas/BuildMenu/BuildContainer/Grid/FarmButton/VBoxContainer"]
+layout_mode = 2
+text = "Farm"
+horizontal_alignment = 1
+
+[node name="TextureRect" type="TextureRect" parent="BuildMenuCanvas/BuildMenu/BuildContainer/Grid/FarmButton/VBoxContainer"]
+custom_minimum_size = Vector2(0, 60)
+layout_mode = 2
+texture = ExtResource("9_cyucq")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="BuildMenuCanvas/BuildMenu/BuildContainer/Grid/FarmButton/VBoxContainer"]
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="BuildMenuCanvas/BuildMenu/BuildContainer/Grid/FarmButton/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+texture = ExtResource("4_ew0nu")
+expand_mode = 2
+
+[node name="FarmMineralCost" type="Label" parent="BuildMenuCanvas/BuildMenu/BuildContainer/Grid/FarmButton/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "0"
+
+[node name="TextureRect2" type="TextureRect" parent="BuildMenuCanvas/BuildMenu/BuildContainer/Grid/FarmButton/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+texture = ExtResource("5_fynky")
+expand_mode = 2
+
+[node name="FarmEnergyCost" type="Label" parent="BuildMenuCanvas/BuildMenu/BuildContainer/Grid/FarmButton/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "0"
+
+[node name="GeneratorButton" type="Button" parent="BuildMenuCanvas/BuildMenu/BuildContainer/Grid"]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+script = ExtResource("10_63x5h")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="BuildMenuCanvas/BuildMenu/BuildContainer/Grid/GeneratorButton"]
+custom_minimum_size = Vector2(90, 0)
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+alignment = 1
+
+[node name="Label" type="Label" parent="BuildMenuCanvas/BuildMenu/BuildContainer/Grid/GeneratorButton/VBoxContainer"]
+layout_mode = 2
+text = "Generator"
+horizontal_alignment = 1
+
+[node name="TextureRect" type="TextureRect" parent="BuildMenuCanvas/BuildMenu/BuildContainer/Grid/GeneratorButton/VBoxContainer"]
+custom_minimum_size = Vector2(0, 60)
+layout_mode = 2
+texture = ExtResource("11_qft5m")
+stretch_mode = 3
+
+[node name="HBoxContainer" type="HBoxContainer" parent="BuildMenuCanvas/BuildMenu/BuildContainer/Grid/GeneratorButton/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+
+[node name="TextureRect" type="TextureRect" parent="BuildMenuCanvas/BuildMenu/BuildContainer/Grid/GeneratorButton/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+texture = ExtResource("4_ew0nu")
+expand_mode = 2
+
+[node name="GeneratorMineralCost" type="Label" parent="BuildMenuCanvas/BuildMenu/BuildContainer/Grid/GeneratorButton/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "0"
+
+[node name="TextureRect2" type="TextureRect" parent="BuildMenuCanvas/BuildMenu/BuildContainer/Grid/GeneratorButton/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+texture = ExtResource("5_fynky")
+expand_mode = 2
+
+[node name="GeneratorEnergyCost" type="Label" parent="BuildMenuCanvas/BuildMenu/BuildContainer/Grid/GeneratorButton/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "0"
+
+[node name="TurretButton" type="Button" parent="BuildMenuCanvas/BuildMenu/BuildContainer/Grid"]
+custom_minimum_size = Vector2(95, 80)
+layout_mode = 2
+script = ExtResource("12_rdgcm")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="BuildMenuCanvas/BuildMenu/BuildContainer/Grid/TurretButton"]
+custom_minimum_size = Vector2(90, 0)
+layout_mode = 0
+offset_right = 64.0
+offset_bottom = 99.0
+
+[node name="Label" type="Label" parent="BuildMenuCanvas/BuildMenu/BuildContainer/Grid/TurretButton/VBoxContainer"]
+layout_mode = 2
+text = "Artillery"
+horizontal_alignment = 1
+
+[node name="TextureRect" type="TextureRect" parent="BuildMenuCanvas/BuildMenu/BuildContainer/Grid/TurretButton/VBoxContainer"]
+custom_minimum_size = Vector2(50, 60)
+layout_mode = 2
+texture = ExtResource("13_4ai86")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="BuildMenuCanvas/BuildMenu/BuildContainer/Grid/TurretButton/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+
+[node name="TextureRect" type="TextureRect" parent="BuildMenuCanvas/BuildMenu/BuildContainer/Grid/TurretButton/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+texture = ExtResource("4_ew0nu")
+expand_mode = 2
+
+[node name="TurretMineralCost" type="Label" parent="BuildMenuCanvas/BuildMenu/BuildContainer/Grid/TurretButton/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "0"
+
+[node name="TextureRect2" type="TextureRect" parent="BuildMenuCanvas/BuildMenu/BuildContainer/Grid/TurretButton/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+texture = ExtResource("5_fynky")
+expand_mode = 2
+
+[node name="TurretEnergyCost" type="Label" parent="BuildMenuCanvas/BuildMenu/BuildContainer/Grid/TurretButton/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "0"
+
+[node name="CancelButton" type="Button" parent="BuildMenuCanvas/BuildMenu/BuildContainer"]
+layout_mode = 2
+text = "Cancel"
+script = ExtResource("14_ifl77")
+
+[connection signal="pressed" from="BuildMenuCanvas/BuildMenu/BuildContainer/Grid/HouseButton" to="BuildMenuCanvas/BuildMenu/BuildContainer/Grid/HouseButton" method="_on_pressed"]
+[connection signal="ready" from="BuildMenuCanvas/BuildMenu/BuildContainer/Grid/HouseButton" to="BuildMenuCanvas/BuildMenu/BuildContainer/Grid/HouseButton" method="_on_ready"]
+[connection signal="pressed" from="BuildMenuCanvas/BuildMenu/BuildContainer/Grid/MineButton" to="BuildMenuCanvas/BuildMenu/BuildContainer/Grid/MineButton" method="_on_pressed"]
+[connection signal="ready" from="BuildMenuCanvas/BuildMenu/BuildContainer/Grid/MineButton" to="BuildMenuCanvas/BuildMenu/BuildContainer/Grid/MineButton" method="_on_ready"]
+[connection signal="pressed" from="BuildMenuCanvas/BuildMenu/BuildContainer/Grid/FarmButton" to="BuildMenuCanvas/BuildMenu/BuildContainer/Grid/FarmButton" method="_on_pressed"]
+[connection signal="ready" from="BuildMenuCanvas/BuildMenu/BuildContainer/Grid/FarmButton" to="BuildMenuCanvas/BuildMenu/BuildContainer/Grid/FarmButton" method="_on_ready"]
+[connection signal="pressed" from="BuildMenuCanvas/BuildMenu/BuildContainer/Grid/GeneratorButton" to="BuildMenuCanvas/BuildMenu/BuildContainer/Grid/GeneratorButton" method="_on_pressed"]
+[connection signal="ready" from="BuildMenuCanvas/BuildMenu/BuildContainer/Grid/GeneratorButton" to="BuildMenuCanvas/BuildMenu/BuildContainer/Grid/GeneratorButton" method="_on_ready"]
+[connection signal="pressed" from="BuildMenuCanvas/BuildMenu/BuildContainer/Grid/TurretButton" to="BuildMenuCanvas/BuildMenu/BuildContainer/Grid/TurretButton" method="_on_pressed"]
+[connection signal="ready" from="BuildMenuCanvas/BuildMenu/BuildContainer/Grid/TurretButton" to="BuildMenuCanvas/BuildMenu/BuildContainer/Grid/TurretButton" method="_on_ready"]
+[connection signal="pressed" from="BuildMenuCanvas/BuildMenu/BuildContainer/CancelButton" to="BuildMenuCanvas/BuildMenu/BuildContainer/CancelButton" method="_on_pressed"]

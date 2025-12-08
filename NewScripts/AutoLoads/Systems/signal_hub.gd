@@ -34,6 +34,7 @@ signal give_resources()
 signal check_for_victory()
 signal reset_turret_charges()
 signal end_night()
+signal throw_error(error: String)
 
 func aliens_finished_moving():
 	check_for_killed_aliens.emit()

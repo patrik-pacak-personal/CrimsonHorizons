@@ -24,6 +24,7 @@ func _ready():
 	SignalHub.build_requested.connect(_on_build_requested)
 	SignalHub.count_buildings.connect(count_buildings)
 	SignalHub.on_reset.connect(reset_building_counts)
+
 	
 #Set all the neccesary stuff for the builder to work
 func set_prefabs(node:Node2D) -> void:
@@ -35,22 +36,30 @@ func set_tilemap_layer(layer: TileMapLayer) -> void:
 
 func build_item(item_name: String, tile: Vector2i):
 # 1. Get the tile's data from the TileMap
+	for pos in tilemap_layer.get_used_cells():
+		var id = tilemap_layer.get_cell_source_id(pos)
+		if id == -1:
+			print("Invalid tile at", pos)
+
 	var base_name = item_name.substr(0, item_name.length() - 1)
 	
 	if base_name == "mine":
 		if check_for_minerals(States.selected_tile) == false:
-			emit_signal("throw_error","Mine can be built only around minerals")
+			SignalHub.throw_error.emit("Mine can be built only around minerals")
 			return
 	
 	if Resources.can_pay(item_name) == false:
-		emit_signal("throw_error","Not enough resources to build a "+ base_name)
+		SignalHub.throw_error.emit("Not enough resources to build a "+ base_name)
 		return
 	
 	if CustomTileData.get_tile_flag(States.selected_tile,"occupied"):
-		emit_signal("throw_error","This place is already occupied by another building")
+		SignalHub.throw_error.emit("This place is already occupied by another building")
 		return
 		
 	var tile_id = tilemap_layer.get_cell_source_id(tile)
+	if tile_id == null or tile_id == -1:
+		print("tile data is null")
+		
 	var tile_data = tilemap_layer.get_cell_tile_data(tile)
 	print("Tile ID:", tile_id, "Data:", tile_data)
 	if tile_data:
@@ -63,7 +72,7 @@ func build_item(item_name: String, tile: Vector2i):
 	var can_build = tile_data.get_custom_data("CanBuild")
 	if can_build == false:
 		print("Cannot build here! Tile at", tile, "doesn't allow building.")
-		emit_signal("throw_error","Cannot build here, the terrain is not suitable for buildings")
+		SignalHub.throw_error.emit("Cannot build here, the terrain is not suitable for buildings")		
 		return
 
 	# 3. Load the item prefab
@@ -94,7 +103,7 @@ func check_for_minerals(selected_tile: Vector2i) -> bool:
 	var neighbors = get_flat_top_neighbors(selected_tile)
 
 	for neighbor in neighbors:
-		var tile_data = tilemap_layer.get_cell_tile_data(neighbor)
+		var tile_data = tilemap_layer.get_cell_tile_data(neighbor)		
 		if tile_data and tile_data.get_custom_data("IsMineral"):
 			return true
 

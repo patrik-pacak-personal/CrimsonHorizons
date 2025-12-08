@@ -1,7 +1,7 @@
 extends Button
 
 func _on_pressed() -> void:
-	var helpNode = get_node("/root/Main/UiScene/HelpTextCanvas/HelpPanel")
+	var helpNode = get_node("/root/Main/UiScene/HelpDialogScene/HelpTextCanvas/HelpPanel")
 	if helpNode.visible == true:
 		helpNode.visible = false
 	else:

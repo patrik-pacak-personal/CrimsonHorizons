@@ -1,0 +1,63 @@
+[gd_scene load_steps=6 format=3 uid="uid://bbgrib76rpebx"]
+
+[ext_resource type="Script" uid="uid://06xyoa6ljw0q" path="res://scripts/game_over_canvas.gd" id="1_okd83"]
+[ext_resource type="Script" uid="uid://cnfghrqi175fo" path="res://scripts/back_to_menu_game_over.gd" id="2_tfqem"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_qm1jd"]
+bg_color = Color(0.697658, 0.0854617, 0, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_hl0wt"]
+font_color = Color(0, 0, 0, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_or8yk"]
+font_color = Color(0, 0, 0, 1)
+
+[node name="GameOverScene" type="Node2D"]
+
+[node name="GameOverCanvas" type="CanvasLayer" parent="."]
+script = ExtResource("1_okd83")
+
+[node name="GameOverPanel" type="Panel" parent="GameOverCanvas"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -241.0
+offset_top = -29.0
+offset_right = 241.0
+offset_bottom = 29.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_qm1jd")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="GameOverCanvas/GameOverPanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 1.0
+offset_bottom = 104.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="GameOverText" type="Label" parent="GameOverCanvas/GameOverPanel/VBoxContainer"]
+layout_mode = 2
+text = "Game Over"
+label_settings = SubResource("LabelSettings_hl0wt")
+horizontal_alignment = 1
+
+[node name="Label" type="Label" parent="GameOverCanvas/GameOverPanel/VBoxContainer"]
+layout_mode = 2
+text = "Your ship was destoroyed, the aliens kill you one by one.."
+label_settings = SubResource("LabelSettings_or8yk")
+horizontal_alignment = 1
+
+[node name="Back to menu" type="Button" parent="GameOverCanvas/GameOverPanel/VBoxContainer"]
+layout_mode = 2
+text = "Back to Main Menu"
+script = ExtResource("2_tfqem")
+
+[connection signal="ready" from="GameOverCanvas" to="GameOverCanvas" method="_on_ready"]
+[connection signal="pressed" from="GameOverCanvas/GameOverPanel/VBoxContainer/Back to menu" to="GameOverCanvas/GameOverPanel/VBoxContainer/Back to menu" method="_on_pressed"]
+[connection signal="ready" from="GameOverCanvas/GameOverPanel/VBoxContainer/Back to menu" to="GameOverCanvas/GameOverPanel/VBoxContainer/Back to menu" method="_on_ready"]

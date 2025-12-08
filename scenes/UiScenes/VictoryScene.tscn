@@ -1,0 +1,64 @@
+[gd_scene load_steps=6 format=3 uid="uid://c700dt4at4kqe"]
+
+[ext_resource type="Script" uid="uid://dxrvliv0c2jko" path="res://scripts/victory_canvas.gd" id="1_sidkw"]
+[ext_resource type="Script" uid="uid://cnfghrqi175fo" path="res://scripts/back_to_menu_game_over.gd" id="2_wprs1"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ce5i6"]
+bg_color = Color(0, 0.689953, 0.127849, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_yh2u1"]
+font_color = Color(0, 0, 0, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_0toju"]
+font_color = Color(0, 0, 0, 1)
+
+[node name="VictoryScene" type="Node2D"]
+
+[node name="VictoryCanvas" type="CanvasLayer" parent="."]
+script = ExtResource("1_sidkw")
+
+[node name="VictoryPanel" type="Panel" parent="VictoryCanvas"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -241.0
+offset_top = -29.0
+offset_right = 241.0
+offset_bottom = 29.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_ce5i6")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VictoryCanvas/VictoryPanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 1.0
+offset_bottom = 104.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VictoryText" type="Label" parent="VictoryCanvas/VictoryPanel/VBoxContainer"]
+layout_mode = 2
+text = "VICTORY!"
+label_settings = SubResource("LabelSettings_yh2u1")
+horizontal_alignment = 1
+
+[node name="Label" type="Label" parent="VictoryCanvas/VictoryPanel/VBoxContainer"]
+layout_mode = 2
+text = "You defended your colonists and built big enough colony!"
+label_settings = SubResource("LabelSettings_0toju")
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="Back to menu" type="Button" parent="VictoryCanvas/VictoryPanel/VBoxContainer"]
+layout_mode = 2
+text = "Back to Main Menu"
+script = ExtResource("2_wprs1")
+
+[connection signal="ready" from="VictoryCanvas" to="VictoryCanvas" method="_on_ready"]
+[connection signal="pressed" from="VictoryCanvas/VictoryPanel/VBoxContainer/Back to menu" to="VictoryCanvas/VictoryPanel/VBoxContainer/Back to menu" method="_on_pressed"]
+[connection signal="ready" from="VictoryCanvas/VictoryPanel/VBoxContainer/Back to menu" to="VictoryCanvas/VictoryPanel/VBoxContainer/Back to menu" method="_on_ready"]

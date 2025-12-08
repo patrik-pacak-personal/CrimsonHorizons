@@ -26,6 +26,8 @@ func populate_tile_flags_from_tilemap(tilemap: TileMapLayer):
 			CustomTileData.set_tile_flag(pos,"turret",false)
 			
 			_set_flags_from_custom_layers(tile_data,pos)
+		if not tile_data:
+			print("Invalid tile at ", pos)
 
 func _set_flags_from_custom_layers(tile_data: TileData,pos: Vector2i):
 	var isMineral = tile_data.get_custom_data("IsMineral")
@@ -61,7 +63,7 @@ func _handle_hover(tileMapLayer: TileMapLayer):
 		_update_hovered_tile(tile_coords,tileMapLayer)
 
 func _show_build_menu():
-	var menu = get_node("/root/Main/UiScene/BuildMenuCanvas/BuildMenu")
+	var menu = get_node("/root/Main/UiScene/BuildMenuScene/BuildMenuCanvas/BuildMenu")
 	var viewport_size = get_viewport().get_visible_rect().size
 	menu.position = (viewport_size / 2) - (menu.size / 2)
 	menu.visible = true

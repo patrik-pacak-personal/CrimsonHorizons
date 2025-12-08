@@ -1,0 +1,143 @@
+[gd_scene load_steps=10 format=3 uid="uid://bbbqe10kldpe5"]
+
+[ext_resource type="Script" uid="uid://c1bdxykpxieda" path="res://scripts/Resources_stats.gd" id="1_clktw"]
+[ext_resource type="Texture2D" uid="uid://bcnr8mjeag8tt" path="res://icons/personIcon.png" id="2_1hmi2"]
+[ext_resource type="Texture2D" uid="uid://b8xi6h4cfb546" path="res://icons/mineralIcon.png" id="3_sj2ja"]
+[ext_resource type="Texture2D" uid="uid://budnsmyo6a1xb" path="res://icons/carrotIcon.png" id="4_op6ef"]
+[ext_resource type="Texture2D" uid="uid://ctqm41xsn88xu" path="res://icons/energyIcon.png" id="5_kw6lj"]
+[ext_resource type="Script" uid="uid://cul54nu0tgw6t" path="res://NewScripts/UIscripts/end_day_button.gd" id="6_rtrlo"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_eolpi"]
+bg_color = Color(0, 0.690196, 0.419608, 0.666667)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0, 0, 0, 1)
+corner_radius_top_left = 9
+corner_radius_top_right = 9
+corner_radius_bottom_right = 9
+corner_radius_bottom_left = 9
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hf1rd"]
+bg_color = Color(0, 0.394898, 0.243261, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0, 0, 0, 1)
+corner_radius_top_left = 9
+corner_radius_top_right = 9
+corner_radius_bottom_right = 9
+corner_radius_bottom_left = 9
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_36v8r"]
+bg_color = Color(0.0980135, 0.709709, 0.449595, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.0142752, 0.0142752, 0.0142752, 1)
+corner_radius_top_left = 9
+corner_radius_top_right = 9
+corner_radius_bottom_right = 9
+corner_radius_bottom_left = 9
+
+[node name="StatsScene" type="Node2D"]
+
+[node name="StatsCanvas" type="CanvasLayer" parent="."]
+script = ExtResource("1_clktw")
+
+[node name="Panel" type="Panel" parent="StatsCanvas"]
+z_index = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -141.0
+offset_right = 111.0
+offset_bottom = 51.0
+grow_horizontal = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="StatsCanvas/Panel"]
+layout_mode = 0
+offset_right = 228.0
+offset_bottom = 50.0
+theme_override_constants/separation = 50
+
+[node name="VBoxContainer" type="VBoxContainer" parent="StatsCanvas/Panel/HBoxContainer"]
+layout_mode = 2
+
+[node name="PeopleContainer" type="HBoxContainer" parent="StatsCanvas/Panel/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="peopleIcon" type="TextureRect" parent="StatsCanvas/Panel/HBoxContainer/VBoxContainer/PeopleContainer"]
+layout_mode = 2
+texture = ExtResource("2_1hmi2")
+expand_mode = 2
+
+[node name="peopleCount" type="Label" parent="StatsCanvas/Panel/HBoxContainer/VBoxContainer/PeopleContainer"]
+layout_mode = 2
+text = "0"
+
+[node name="Label" type="Label" parent="StatsCanvas/Panel/HBoxContainer/VBoxContainer/PeopleContainer"]
+layout_mode = 2
+text = "/"
+
+[node name="peopleGoal" type="Label" parent="StatsCanvas/Panel/HBoxContainer/VBoxContainer/PeopleContainer"]
+layout_mode = 2
+text = "0"
+
+[node name="MineralsContainer" type="HBoxContainer" parent="StatsCanvas/Panel/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="mineralIcon" type="TextureRect" parent="StatsCanvas/Panel/HBoxContainer/VBoxContainer/MineralsContainer"]
+layout_mode = 2
+texture = ExtResource("3_sj2ja")
+expand_mode = 2
+
+[node name="mineralsCount" type="Label" parent="StatsCanvas/Panel/HBoxContainer/VBoxContainer/MineralsContainer"]
+layout_mode = 2
+text = "0"
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="StatsCanvas/Panel/HBoxContainer"]
+layout_mode = 2
+
+[node name="FoodContainer" type="HBoxContainer" parent="StatsCanvas/Panel/HBoxContainer/VBoxContainer2"]
+layout_mode = 2
+
+[node name="foodIcon" type="TextureRect" parent="StatsCanvas/Panel/HBoxContainer/VBoxContainer2/FoodContainer"]
+layout_mode = 2
+texture = ExtResource("4_op6ef")
+expand_mode = 2
+
+[node name="foodCount" type="Label" parent="StatsCanvas/Panel/HBoxContainer/VBoxContainer2/FoodContainer"]
+layout_mode = 2
+text = "0"
+
+[node name="Label" type="Label" parent="StatsCanvas/Panel/HBoxContainer/VBoxContainer2/FoodContainer"]
+layout_mode = 2
+text = "/ day"
+
+[node name="EnergyContainer" type="HBoxContainer" parent="StatsCanvas/Panel/HBoxContainer/VBoxContainer2"]
+layout_mode = 2
+
+[node name="energyIcon" type="TextureRect" parent="StatsCanvas/Panel/HBoxContainer/VBoxContainer2/EnergyContainer"]
+layout_mode = 2
+texture = ExtResource("5_kw6lj")
+expand_mode = 2
+
+[node name="energyCount" type="Label" parent="StatsCanvas/Panel/HBoxContainer/VBoxContainer2/EnergyContainer"]
+layout_mode = 2
+text = "0"
+
+[node name="EndDayButton" type="Button" parent="StatsCanvas/Panel/HBoxContainer"]
+layout_mode = 2
+theme_override_styles/hover = SubResource("StyleBoxFlat_eolpi")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_hf1rd")
+theme_override_styles/normal = SubResource("StyleBoxFlat_36v8r")
+text = "End day"
+script = ExtResource("6_rtrlo")
+
+[connection signal="ready" from="StatsCanvas" to="StatsCanvas" method="_on_ready"]
+[connection signal="pressed" from="StatsCanvas/Panel/HBoxContainer/EndDayButton" to="StatsCanvas/Panel/HBoxContainer/EndDayButton" method="_on_pressed"]
+[connection signal="ready" from="StatsCanvas/Panel/HBoxContainer/EndDayButton" to="StatsCanvas/Panel/HBoxContainer/EndDayButton" method="_on_ready"]

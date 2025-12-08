@@ -1,0 +1,105 @@
+[gd_scene load_steps=5 format=3 uid="uid://cjnqi7wefo07r"]
+
+[ext_resource type="Script" uid="uid://jiwica5lsx8v" path="res://NewScripts/UIscripts/HelpDialog/help_text_canvas.gd" id="1_if168"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_dvk05"]
+font_size = 40
+
+[sub_resource type="LabelSettings" id="LabelSettings_jgute"]
+font_size = 20
+
+[sub_resource type="LabelSettings" id="LabelSettings_fomqi"]
+font_size = 20
+
+[node name="HelpDialogScene" type="Node2D"]
+
+[node name="HelpTextCanvas" type="CanvasLayer" parent="."]
+script = ExtResource("1_if168")
+
+[node name="HelpPanel" type="Panel" parent="HelpTextCanvas"]
+z_index = 2
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -797.0
+offset_top = -490.0
+offset_right = 797.0
+offset_bottom = 490.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="HelpTextCanvas/HelpPanel"]
+z_index = 2
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.067
+anchor_right = 0.5
+anchor_bottom = 0.12
+offset_left = -52.5
+offset_top = -59.3
+offset_right = 46.5
+offset_bottom = -36.3
+grow_horizontal = 2
+text = " HELP"
+label_settings = SubResource("LabelSettings_dvk05")
+horizontal_alignment = 1
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HelpTextCanvas/HelpPanel"]
+layout_mode = 0
+offset_left = 20.0
+offset_top = 65.0
+offset_right = 1097.0
+offset_bottom = 114.0
+theme_override_constants/separation = 13
+
+[node name="Label2" type="Label" parent="HelpTextCanvas/HelpPanel/VBoxContainer"]
+layout_mode = 2
+text = "STORY"
+label_settings = SubResource("LabelSettings_jgute")
+
+[node name="Label" type="Label" parent="HelpTextCanvas/HelpPanel/VBoxContainer"]
+layout_mode = 2
+text = "Earth is struggling, so it sent YOU and your crew to colonize new planets!
+You arived on a planet that has been given name Enyo and you have to set up big enough colony so that there can be a basic infrastructure 
+and a masive transport of people from Earth can begin
+Right as you arrived, you noticed signs of life and one of your crew members got eaten by an unknown animal!
+You must deffend your base from these aliens and not let another life go in vain."
+
+[node name="Label3" type="Label" parent="HelpTextCanvas/HelpPanel/VBoxContainer"]
+layout_mode = 2
+text = "INSTRUCTIONS"
+label_settings = SubResource("LabelSettings_fomqi")
+
+[node name="Label4" type="Label" parent="HelpTextCanvas/HelpPanel/VBoxContainer"]
+layout_mode = 2
+text = "You can build multiple buildings, each serves it purpose and you wont be able to make it on the planet without having multiple of each!
+
+HOUSE - Server as an accomodation for your colonists. 
+each house can accomodate 10 people and new built houses are filled with new colonist just after the day ends. 
+Watch out! - new colonists wont move in, if you dont have enough farms! The ratio must always be 1 farm to 2 houses.
+
+MINE - Extracts useful resources from the planets mountains. After each day, you get 15 minerals
+Watch out! - Mines can be built only on tiles around the tile with a mineral icon
+
+FARM - Produces food for you colonists
+Watch out! - There always has to be enough farms to support your houses
+
+Generator - These generator are can only produce energy during the night, so after you end a day, next day you will be able to 
+use the energy that was stored in the bateries
+
+ARTILLERY - This is, for now, your only line of defense against the aliens. 
+Once you built an artillery, you will be able to take down those pesky aliens!
+
+
+SHOOTING
+Unlocked once artillery is built. 
+Aliens move constantly, but we get only a glimpse of their last position during the nightfall, when the sunset ilumnates their antenas for
+a while, before they go dark again. That means, that you have to observe the aliens position, figure out the pattern and always plan your 
+shot in advance! If the alien moves during the night to the same location you mark to be shot at during the day, the alien will be eliminated
+The number of shots you can prepare is determined by the number of turrets
+Watch out! - Aliens always move towards you rocket ship and will destroy everything building that crosses their path\""
+
+[connection signal="ready" from="HelpTextCanvas" to="HelpTextCanvas" method="_on_ready"]

@@ -1,0 +1,58 @@
+[gd_scene load_steps=4 format=3 uid="uid://bgroomt1marqn"]
+
+[ext_resource type="Script" uid="uid://dbdv7h1p2px41" path="res://scripts/fire_button.gd" id="1_0150h"]
+[ext_resource type="Texture2D" uid="uid://bkbpbffxh3ckw" path="res://icons/crosshair.png" id="2_mfc10"]
+[ext_resource type="Texture2D" uid="uid://ctqm41xsn88xu" path="res://icons/energyIcon.png" id="3_hothr"]
+
+[node name="ArtileryUiScene" type="Node2D"]
+
+[node name="ArtilleryCanvas" type="CanvasLayer" parent="."]
+
+[node name="FireButton" type="Button" parent="ArtilleryCanvas"]
+offset_top = 56.0
+offset_right = 347.0
+offset_bottom = 120.0
+script = ExtResource("1_0150h")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ArtilleryCanvas/FireButton"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="ArtilleryCanvas/FireButton/VBoxContainer"]
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="ArtilleryCanvas/FireButton/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+texture = ExtResource("2_mfc10")
+
+[node name="Label" type="Label" parent="ArtilleryCanvas/FireButton/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "Fire artillery "
+
+[node name="Label2" type="Label" parent="ArtilleryCanvas/FireButton/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "       costs:"
+
+[node name="TextureRect2" type="TextureRect" parent="ArtilleryCanvas/FireButton/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+texture = ExtResource("3_hothr")
+expand_mode = 2
+
+[node name="artilleryCost" type="Label" parent="ArtilleryCanvas/FireButton/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "0"
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="ArtilleryCanvas/FireButton/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="ArtilleryCanvas/FireButton/VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+text = "remaining shots: "
+
+[node name="remainingShots" type="Label" parent="ArtilleryCanvas/FireButton/VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+text = "0"
+
+[connection signal="pressed" from="ArtilleryCanvas/FireButton" to="ArtilleryCanvas/FireButton" method="_on_pressed"]
+[connection signal="ready" from="ArtilleryCanvas/FireButton" to="ArtilleryCanvas/FireButton" method="_on_ready"]

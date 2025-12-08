@@ -1,0 +1,51 @@
+[gd_scene load_steps=4 format=3 uid="uid://dopvx52djjmg6"]
+
+[ext_resource type="Script" uid="uid://rs8ltx4loeqh" path="res://scripts/error_dialog.gd" id="1_68qeo"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_jx0ao"]
+resource_local_to_scene = true
+bg_color = Color(0.890778, 0.944453, 7.70092e-07, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0, 0, 0, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[sub_resource type="LabelSettings" id="LabelSettings_ydgeu"]
+font_color = Color(0, 0, 0, 1)
+
+[node name="ErrorCanvas" type="Node2D"]
+
+[node name="ErrorCanvas" type="CanvasLayer" parent="."]
+
+[node name="ErrorPanel" type="Panel" parent="ErrorCanvas"]
+offset_right = 482.0
+offset_bottom = 58.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_jx0ao")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ErrorCanvas/ErrorPanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Error" type="Label" parent="ErrorCanvas/ErrorPanel/VBoxContainer"]
+layout_mode = 2
+text = "error"
+label_settings = SubResource("LabelSettings_ydgeu")
+horizontal_alignment = 1
+
+[node name="Cancel" type="Button" parent="ErrorCanvas/ErrorPanel/VBoxContainer"]
+layout_mode = 2
+text = "Cancel"
+script = ExtResource("1_68qeo")
+
+[connection signal="pressed" from="ErrorCanvas/ErrorPanel/VBoxContainer/Cancel" to="ErrorCanvas/ErrorPanel/VBoxContainer/Cancel" method="_on_pressed"]
+[connection signal="ready" from="ErrorCanvas/ErrorPanel/VBoxContainer/Cancel" to="ErrorCanvas/ErrorPanel/VBoxContainer/Cancel" method="_on_ready"]
