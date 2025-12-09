@@ -144,29 +144,29 @@ func reset_building_counts() -> void:
 	Resources.farms = 0;
 
 func get_flat_top_neighbors(tile: Vector2i) -> Array:
-	var even_q := [
-		Vector2i(1, 0),    # E
-		Vector2i(1, -1),   # NE
-		Vector2i(0, -1),   # NW
-		Vector2i(-1, 0),   # W
-		Vector2i(0, 1),    # SW
-		Vector2i(1, 1)     # SE
+	var even_r := [
+	Vector2i(0, -1),   # N
+	Vector2i(1, -1),   # NE
+	Vector2i(1, 0),    # SE
+	Vector2i(0, 1),    # S
+	Vector2i(-1, 0),   # SW
+	Vector2i(-1, -1)   # NW
 	]
 
-	var odd_q := [
-		Vector2i(1, 0),    # E
-		Vector2i(1, -1),   # NE
-		Vector2i(0, -1),   # NW
-		Vector2i(-1, 0),   # W
+	var odd_r := [
+		Vector2i(0, -1),   # N
+		Vector2i(1, 0),    # NE
+		Vector2i(1, 1),    # SE
+		Vector2i(0, 1),    # S
 		Vector2i(-1, 1),   # SW
-		Vector2i(0, 1)     # SE
+		Vector2i(-1, 0)    # NW
 	]
 
 	var directions = {}
-	if tile.x % 2 == 0:
-		directions=even_q
+	if tile.y % 2 == 0:
+		directions = even_r
 	else:
-		directions = odd_q
+		directions = odd_r
 	
 
 	var neighbors := []
