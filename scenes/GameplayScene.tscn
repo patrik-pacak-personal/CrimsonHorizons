@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=4 uid="uid://8unwqrmks45l"]
+[gd_scene load_steps=14 format=4 uid="uid://8unwqrmks45l"]
 
 [ext_resource type="Script" uid="uid://u1h84ynbijfy" path="res://scripts/gameplay_scene_init.gd" id="1_vgndu"]
 [ext_resource type="Texture2D" uid="uid://b8et4u4obxcbk" path="res://tiles/fantasyhextiles_v3.png" id="1_wckvk"]
@@ -7,6 +7,7 @@
 [ext_resource type="Script" uid="uid://bwp7o002cv4pn" path="res://NewScripts/UIscripts/camera_movement.gd" id="4_b4qan"]
 [ext_resource type="Texture2D" uid="uid://b0q6xfis5lthc" path="res://buildings/crashedrocket.png" id="5_30wor"]
 [ext_resource type="Texture2D" uid="uid://4px8wntp2pk1" path="res://backgrounds/sand.jpg" id="6_umdcf"]
+[ext_resource type="PackedScene" uid="uid://dp46jto0hcxvt" path="res://scenes/prefabs.tscn" id="8_i6fn2"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_ssy3j"]
 
@@ -184,5 +185,8 @@ texture = ExtResource("6_umdcf")
 [node name="CameraBoundsCollisionShape" type="CollisionShape2D" parent="CameraBoundsArea"]
 position = Vector2(34.5, 126.5)
 shape = SubResource("RectangleShape2D_vgndu")
+
+[node name="Prefabs" parent="." instance=ExtResource("8_i6fn2")]
+visible = false
 
 [connection signal="ready" from="TileMapLayer" to="TileMapLayer" method="_on_ready"]
