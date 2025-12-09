@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=4 uid="uid://8unwqrmks45l"]
+[gd_scene load_steps=13 format=4 uid="uid://8unwqrmks45l"]
 
 [ext_resource type="Script" uid="uid://u1h84ynbijfy" path="res://scripts/gameplay_scene_init.gd" id="1_vgndu"]
 [ext_resource type="Texture2D" uid="uid://b8et4u4obxcbk" path="res://tiles/fantasyhextiles_v3.png" id="1_wckvk"]
@@ -143,6 +143,9 @@ custom_data_layer_2/type = 1
 sources/0 = SubResource("TileSetAtlasSource_jwrfw")
 sources/3 = SubResource("TileSetAtlasSource_prjhx")
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_vgndu"]
+size = Vector2(3025, 2001)
+
 [node name="GameplayScene" type="Node2D"]
 script = ExtResource("1_vgndu")
 
@@ -156,8 +159,6 @@ script = ExtResource("3_f1byq")
 position_smoothing_enabled = true
 position_smoothing_speed = 4.0
 script = ExtResource("4_b4qan")
-min_pos = Vector2(-2000, -2000)
-max_pos = Vector2(2000, 2000)
 drag_speed = 0.5
 
 [node name="PlacedItemsContainer" type="Node2D" parent="."]
@@ -177,5 +178,11 @@ offset_top = -867.0
 offset_right = 1537.0
 offset_bottom = 1135.0
 texture = ExtResource("6_umdcf")
+
+[node name="CameraBoundsArea" type="Area2D" parent="."]
+
+[node name="CameraBoundsCollisionShape" type="CollisionShape2D" parent="CameraBoundsArea"]
+position = Vector2(34.5, 126.5)
+shape = SubResource("RectangleShape2D_vgndu")
 
 [connection signal="ready" from="TileMapLayer" to="TileMapLayer" method="_on_ready"]

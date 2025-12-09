@@ -8,6 +8,8 @@ extends Camera2D
 @export var min_pos: Vector2 = Vector2.ZERO
 @export var max_pos: Vector2 = Vector2(5000, 5000)
 
+var bounds: Rect2
+
 @export var drag_speed: float = 0.6
 
 var is_dragging := false
@@ -15,12 +17,30 @@ var drag_start_mouse_pos := Vector2.ZERO
 var drag_start_camera_pos := Vector2.ZERO
 
 func _ready():
+	var area = get_node("../CameraBoundsArea")  # adjust path to your scene
+	var shape = area.get_node("CameraBoundsCollisionShape").shape as RectangleShape2D
+
+	# Convert its shape into world coordinates
+	var global_pos = area.global_position
+	var size = shape.size
+
+	bounds = Rect2(
+		global_pos - size * 0.5,
+		size
+	)
 	zoom = Vector2.ONE
 
 func _process(_delta):
-	if limits_enabled:
-		global_position.x = clamp(global_position.x, min_pos.x, max_pos.x)
-		global_position.y = clamp(global_position.y, min_pos.y, max_pos.y)
+	var half = (get_viewport_rect().size * zoom) * 0.5
+
+	# Compute clamped camera center
+	var min_x = bounds.position.x + half.x
+	var max_x = bounds.position.x + bounds.size.x - half.x
+	var min_y = bounds.position.y + half.y
+	var max_y = bounds.position.y + bounds.size.y - half.y
+
+	global_position.x = clamp(global_position.x, min_x, max_x)
+	global_position.y = clamp(global_position.y, min_y, max_y)
 
 func _unhandled_input(event):
 	if event is InputEventMouseButton:
