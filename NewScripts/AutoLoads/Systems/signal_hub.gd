@@ -24,6 +24,7 @@ func level_over():
 	update_resources_ui.emit()
 	on_reset.emit()
 	
+signal item_built
 signal start_night()
 signal count_buildings()
 signal spawn_aliens()

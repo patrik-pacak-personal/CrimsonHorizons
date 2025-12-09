@@ -1,6 +1,7 @@
 extends CanvasLayer
 
 func _ready():
+	SignalHub.item_built.connect(_on_main_item_built)
 	$BuildMenu.visible = false
 	
 	# Initialize costs

@@ -10,6 +10,8 @@ var generators =0;
 var turrets = 0;
 var farms = 0;
 
+var building_prefab: PackedScene
+
 signal resources_changed()
 signal item_built()
 signal turret_built()
@@ -21,6 +23,8 @@ func _on_build_requested(name: Variant) -> void:
 		
 #Connect all the neccesary signals 
 func _ready():
+	building_prefab = preload("res://scenes/BuildingScene.tscn")
+	
 	SignalHub.build_requested.connect(_on_build_requested)
 	SignalHub.count_buildings.connect(count_buildings)
 	SignalHub.on_reset.connect(reset_building_counts)
@@ -75,25 +79,32 @@ func build_item(item_name: String, tile: Vector2i):
 		SignalHub.throw_error.emit("Cannot build here, the terrain is not suitable for buildings")		
 		return
 
-	# 3. Load the item prefab
-	var original = item_prefabs.get_node_or_null(item_name)
-	if original == null:
-		print("Item not found:", item_name)
+	# Create a generic building instance
+	var instance = building_prefab.instantiate()
+
+	# Find the correct texture based on item name
+	var tex = Constants.building_textures[item_name]
+
+	if tex == null:
+		SignalHub.throw_error.emit("Missing texture for " + item_name)
 		return
 
-
-	# 4. Create instance and place it
-	var instance = original.duplicate(true)
 	var tile_global_pos = tilemap_layer.to_global(tilemap_layer.map_to_local(tile))
 	var local_pos = placed_items.to_local(tile_global_pos)
 	instance.position = local_pos
+
 	placed_items.add_child(instance)
-	print("Placed", item_name, "at", tile)
-	
+	# Configure the instance
+	instance.setup(item_name, tex)
+
+	# Position like before
+
+
 	Resources.pay_resources(item_name)
 	CustomTileData.set_tile_flag(States.selected_tile, "occupied", true)
-	CustomTileData.set_tile_flag(States.selected_tile, base_name, true)
-	emit_signal("item_built")
+	CustomTileData.set_tile_flag(States.selected_tile, item_name.substr(0, item_name.length() - 1), true)
+
+	SignalHub.item_built.emit()
 	
 	if base_name == "turret":
 		States.turretBuilt = true

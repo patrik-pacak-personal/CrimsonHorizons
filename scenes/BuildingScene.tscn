@@ -1,5 +1,6 @@
-[gd_scene load_steps=5 format=3 uid="uid://6q2dpyqw4syu"]
+[gd_scene load_steps=6 format=3 uid="uid://6q2dpyqw4syu"]
 
+[ext_resource type="Script" uid="uid://dx2i5hlnwww87" path="res://scenes/building_scene_setup.gd" id="1_68rlq"]
 [ext_resource type="Texture2D" uid="uid://8kbp4ihv8luo" path="res://buildings/house1.png" id="1_f5q5t"]
 
 [sub_resource type="Animation" id="Animation_68rlq"]
@@ -88,14 +89,15 @@ _data = {
 }
 
 [node name="BuildingScene" type="Node2D"]
+script = ExtResource("1_68rlq")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-root_node = NodePath("../Sprite2D")
+root_node = NodePath("../Sprite")
 libraries = {
 &"": SubResource("AnimationLibrary_c4488")
 }
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
+[node name="Sprite" type="Sprite2D" parent="."]
 modulate = Color(1, 1, 1, 0)
 position = Vector2(0, -79)
 texture = ExtResource("1_f5q5t")
