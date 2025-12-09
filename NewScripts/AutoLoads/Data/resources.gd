@@ -7,8 +7,8 @@ func _ready():
 	SignalHub.give_resources.connect(give_resources)
 
 var default_resources = {
-	"minerals": 40,
-	"energy": 30,
+	"minerals": 200,
+	"energy": 300,
 	"food": 10,
 	"people": 0,
 	"peopleGoal" :100
