@@ -109,7 +109,7 @@ func move_alien_towards(
 			break
 
 	if current_tile == target_tile:
-		emit_signal("game_over")
+		SignalHub.game_over.emit()
 	
 	await get_tree().create_timer(0.5).timeout
 	

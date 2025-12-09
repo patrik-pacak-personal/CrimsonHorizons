@@ -5,4 +5,4 @@ func _ready():
 
 func check_for_victory():
 	if Resources.houses > 6 and Resources.farms > 3:
-		emit_signal("victory_achieved")
+		SignalHub.victory_achieved.emit()

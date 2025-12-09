@@ -1,6 +1,7 @@
 extends CanvasLayer
 
 func _on_ready() -> void:
+	SignalHub.victory_achieved.connect(_on_end_day_button_victory_achieved)
 	$VictoryPanel.visible = false
 
 

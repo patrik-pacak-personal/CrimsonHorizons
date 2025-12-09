@@ -31,7 +31,7 @@ func _ready():
 	zoom = Vector2.ONE
 
 func _process(_delta):
-	var half = (get_viewport_rect().size * zoom) * 0.5
+	var half = (get_viewport_rect().size) * 0.5
 
 	# Compute clamped camera center
 	var min_x = bounds.position.x + half.x

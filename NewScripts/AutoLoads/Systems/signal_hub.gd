@@ -32,7 +32,11 @@ signal move_aliens()
 signal check_for_killed_aliens()
 signal remove_destroyed_items()
 signal give_resources()
+
 signal check_for_victory()
+signal victory_achieved()
+signal game_over
+
 signal reset_turret_charges()
 signal end_night()
 signal throw_error(error: String)
