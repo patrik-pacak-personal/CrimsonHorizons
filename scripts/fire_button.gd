@@ -8,6 +8,7 @@ func _on_ready() -> void:
 	SignalHub.turret_built.connect(_on_turret_built)
 	SignalHub.marker_placed.connect(_on_marker_placed)
 	SignalHub.end_night.connect(_reset_shots)
+	SignalHub.determine_shoot_panel_visibility.connect(determine_panel_visibility)
 
 func _reset_shots():
 	update_remaining_shots()
@@ -25,6 +26,10 @@ func _on_turret_built() -> void:
 
 func update_remaining_shots() -> void:
 	$VBoxContainer/HBoxContainer2/remainingShots.text = str(States.remainingShots)
+	
+func determine_panel_visibility():
+	if States.remainingShots == 0:
+		self.visible=false
 
 func _on_end_day_button_day_ended() -> void:
 	$VBoxContainer/HBoxContainer2/remainingShots.text = str(States.remainingShots)

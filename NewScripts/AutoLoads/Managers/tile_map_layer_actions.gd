@@ -24,6 +24,7 @@ func populate_tile_flags_from_tilemap(tilemap: TileMapLayer):
 			CustomTileData.set_tile_flag(pos,"mine",false)
 			CustomTileData.set_tile_flag(pos,"generator",false)
 			CustomTileData.set_tile_flag(pos,"turret",false)
+			CustomTileData.set_tile_flag(pos,"object_name","")
 			
 			_set_flags_from_custom_layers(tile_data,pos)
 		if not tile_data:

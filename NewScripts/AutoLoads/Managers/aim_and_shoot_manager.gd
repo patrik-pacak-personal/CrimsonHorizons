@@ -7,28 +7,37 @@ func _ready():
 	SignalHub.place_marker.connect(place_target_marker)
 	
 func remove_all_crosshairs():
+	#This method of removing the crosshairs feels really stupid and should be refactored to just remove all of the 
+	#cross hair
 	var placed_items_node = get_node("/root/Main/GameplayScene/PlacedItemsContainer")
 	var tile_map = get_node("/root/Main/GameplayScene/TileMapLayer")
 
 	var tiles_to_clear := []
+	var objects_to_clear := []
+
+	for item in placed_items_node.get_children():
+		if "targetCrosshair" in item.name:
+			item.queue_free()		
 
 	# Step 1: Find all tiles with a crosshair
 	for tile_pos in CustomTileData.tile_flags.keys():
 		if CustomTileData.get_tile_flag(tile_pos, "hasCrosshair"):
-			tiles_to_clear.append(tile_pos)
-
-	# Step 2: Remove crosshair nodes and clear flags
-	for tile_pos in tiles_to_clear:
-		var world_pos = tile_map.to_global(tile_map.map_to_local(tile_pos))
-
-		for item in placed_items_node.get_children():
-			if item.position.distance_to(placed_items_node.to_local(world_pos)) < 10:
-				item.queue_free()
-				break
-
+			tiles_to_clear.append(tile_pos)			
+	
+	
+	for tile_pos in CustomTileData.tile_flags.keys():
+		if CustomTileData.get_tile_flag(tile_pos, "hasCrosshair"):
+				for item in placed_items_node.get_children():
+					var obj_name = CustomTileData.get_tile_flag(tile_pos, "object_name")
+					if obj_name == item.name:
+						item.queue_free()
+						CustomTileData.set_tile_flags_to_basic(tile_pos)
+			
+	# Step 2:  clear flags
+	for tile_pos in tiles_to_clear:		
 		# Clear the flag
-		CustomTileData.set_tile_flag(tile_pos, "hasCrosshair", false)
-
+		CustomTileData.set_tile_flag(tile_pos, "hasCrosshair", false)			
+	
 	
 func reset_turret_charges() -> void:
 	States.remainingShots = Resources.turrets
@@ -61,7 +70,7 @@ func place_target_marker(tile_pos: Vector2i,tileMapLayer: TileMapLayer) -> void:
 	# Convert to local space of parent node (so it positions correctly)
 	var marker_local_pos = prefabs_node.to_local(tile_global_pos)
 	marker_instance.position = marker_local_pos
-
+	marker_instance.name ="targetCrosshair_" + str(tile_pos.x) + "_" + str(tile_pos.y)
 	# Add the instance to the scene
 	placed_items.add_child(marker_instance)
 	

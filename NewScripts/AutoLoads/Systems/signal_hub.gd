@@ -38,19 +38,23 @@ signal victory_achieved()
 signal game_over
 
 signal reset_turret_charges()
+signal determine_shoot_panel_visibility()
 signal end_night()
 signal throw_error(error: String)
 
 func aliens_finished_moving():
 	check_for_killed_aliens.emit()
-	end_night.emit()
+	
 	remove_destroyed_items.emit()
-
-func end_day():
-	start_night.emit()
 	count_buildings.emit()
-	spawn_aliens.emit()
-	move_aliens.emit()
 	give_resources.emit()
+	
 	check_for_victory.emit()
 	reset_turret_charges.emit()
+	determine_shoot_panel_visibility.emit()
+	end_night.emit()
+	
+func end_day():
+	start_night.emit()
+	spawn_aliens.emit()
+	move_aliens.emit()		

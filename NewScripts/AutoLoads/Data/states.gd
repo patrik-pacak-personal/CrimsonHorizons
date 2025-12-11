@@ -6,6 +6,8 @@ func _ready():
 var selected_tile: Vector2i = Vector2i(-1, -1)
 var shooting = false
 
+var in_game = false
+
 var _turretBuilt = false
 var turretBuilt:
 	get:

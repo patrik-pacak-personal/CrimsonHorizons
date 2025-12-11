@@ -61,6 +61,10 @@ func kill_alien(tile_pos: Vector2i):
 	
 func move_aliens():
 	await get_tree().create_timer(1).timeout
+	
+	if not States.in_game:
+		return
+		
 	var tileMapLayer = get_node("/root/Main/GameplayScene/TileMapLayer")
 	var aliensNode = get_node("/root/Main/GameplayScene/AliensContainer")	
 	var center_tile: Vector2i = CustomTileData.find_center_tile()

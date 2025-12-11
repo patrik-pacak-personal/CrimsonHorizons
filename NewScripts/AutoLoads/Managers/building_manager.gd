@@ -102,6 +102,7 @@ func build_item(item_name: String, tile: Vector2i):
 
 	Resources.pay_resources(item_name)
 	CustomTileData.set_tile_flag(States.selected_tile, "occupied", true)
+	CustomTileData.set_tile_flag(States.selected_tile, "object_name", instance.name)
 	CustomTileData.set_tile_flag(States.selected_tile, item_name.substr(0, item_name.length() - 1), true)
 
 	SignalHub.item_built.emit()
